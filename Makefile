@@ -7,7 +7,8 @@ NAME = minishell
 
 UTL_DIR =	utils
 UTL_FILES =	\
-			ft_node_add_front.c
+			ft_node_add_front.c \
+			minisplit.c
 UTL =	$(addprefix $(UTL_DIR)/, $(UTL_FILES))
 
 SRC_DIR =	./srcs

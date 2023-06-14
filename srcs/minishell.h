@@ -75,5 +75,6 @@ void	ft_struct_init(t_struct *s, char **envp);
 
 void	ft_node_add_front(t_struct *s, char *cmd_name);
 void	ft_node_add_back_envp(t_struct *s);
+char	*ft_minisplit(const char *line, char c);
 
 #endif

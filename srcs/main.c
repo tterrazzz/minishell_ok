@@ -22,7 +22,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		add_history(line);
 		ft_lexer(s, line);
-		free(line);
 	}
 	ft_free_everything(s);
 	return (0);

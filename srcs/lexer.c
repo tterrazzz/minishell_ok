@@ -34,15 +34,15 @@ char	*ft_add_space(char *line)
 	while (line[i])
 	{
 		str[y] = line [i];
-		if (line[i] == '|')
+		if (line[i++] == '|')
 		{
 			str[y] = ' ';
 			str[++y] = '|';
 			str[++y] = ' ';
 		}
-		i++;
 		y++;
 	}
+	str[y] = '\0';
 	free(line);
 	return (str);
 }
@@ -50,9 +50,12 @@ char	*ft_add_space(char *line)
 void	ft_lexer(t_struct *s, char *line)
 {
 	char	**temp;
+	int		i;
 
 	(void) s;
 	line = ft_add_space(line);
 	temp = ft_split(line, ' ');
-	printf("%s")
+	i = 0;
+	while (temp[i])
+		printf ("%s\n", temp[i++]);
 }
