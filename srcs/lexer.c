@@ -54,5 +54,4 @@ void	ft_lexer(t_struct *s, char *line)
 	(void) s;
 	line = ft_add_space(line);
 	temp = ft_split(line, ' ');
-	printf("%s")
 }
