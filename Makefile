@@ -14,6 +14,7 @@ SRC_DIR =	./srcs
 SRC_FILES =	\
 			ft_error.c \
 			ft_free_everything.c \
+			lexer.c \
 			ft_struct_init.c \
 			main.c
 SRC =	$(UTL) $(addprefix $(SRC_DIR)/, $(SRC_FILES))

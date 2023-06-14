@@ -16,7 +16,7 @@
 	to fill the char **name_options and returns an initiated node */
 static t_list	*ft_node_create(char *argv_cmd)
 {
-	(void *) argv_cmd;
+	(void) argv_cmd;
 	/*t_list	*cmd;
 
 	if (!argv_cmd)
@@ -32,14 +32,39 @@ static t_list	*ft_node_create(char *argv_cmd)
 	cmd->next = NULL;
 	cmd->prev = NULL;
 	return (cmd);*/
+	return (NULL);
+}
+
+void	ft_node_add_back_envp(t_struct *s)
+{
+	t_envp	*last;
+	t_envp	*temp;
+
+	if (!s)
+		return ;
+	last = malloc(sizeof(t_envp));
+	if (!last)
+		return ;
+	last->next = NULL;
+	last->value = NULL;
+	if (!s->envp)
+		s->envp = last;
+	else
+	{
+		temp = s->envp;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = last;
+	}
 }
 
 /*  ft_node_add_front creates a node calling ft_node_create and adds it
 	at the front of the list */
 void	ft_node_add_front(t_struct *s, char *cmd_name)
 {
-	(void *) s;
-	(void *) cmd_name;
+	(void) s;
+	(void) cmd_name;
+	ft_node_create("ggg");
 	/*t_list	*temp;
 
 	if (!s || !cmd_name)

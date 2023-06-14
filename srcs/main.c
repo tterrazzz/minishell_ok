@@ -14,13 +14,14 @@ int	main(int argc, char **argv, char **envp)
 	ft_struct_init(s, envp);
 	while (1)
 	{
-		line = readline("minishell% ");
+		line = readline("minishell$ ");
 		if (line == NULL || !ft_strncmp("exit\n", line, ft_strlen(line)))
 		{
 			write(1, "exit\n", 5);
 			exit(0);
 		}
 		add_history(line);
+		ft_lexer(s, line);
 		free(line);
 	}
 	ft_free_everything(s);

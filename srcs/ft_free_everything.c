@@ -10,10 +10,10 @@ void    ft_free_ptr(void *ptr)
     }
 }
 
-static void ft_free_envp(t_struct *s)
+/*static void ft_free_envp(t_struct *s)
 {
-    (void *) s;
-    /*void    *temp;
+    (void) s;
+    void    *temp;
 
     if (!s)
         return ;
@@ -23,8 +23,8 @@ static void ft_free_envp(t_struct *s)
         ft_free_ptr((void *) temp->name);
         ft_free_tab((void **) temp->value);
         temp = temp->next;
-    }*/
-}
+    }
+}*/
 
 /*  void ft_free_everything frees everything */
 void    ft_free_everything(t_struct *s)
