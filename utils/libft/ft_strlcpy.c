@@ -3,19 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/08 09:33:13 by avan              #+#    #+#             */
-/*   Updated: 2022/11/16 16:37:20 by avan             ###   ########.fr       */
+/*   Created: 2023/06/01 16:53:57 by marvin            #+#    #+#             */
+/*   Updated: 2023/06/14 09:04:02 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+/*	ft_strlcpy gets a dst string and a src string, it copies dstsize char
+	from src to dst and returns the size of src */
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
 
+	if (!dst || !src)
+		return (0);
 	i = 0;
 	if (dstsize == 0)
 		return (ft_strlen(src));

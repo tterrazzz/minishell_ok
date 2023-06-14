@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_add_slash.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:51:46 by marvin            #+#    #+#             */
-/*   Updated: 2023/06/01 16:51:56 by marvin           ###   ########.fr       */
+/*   Updated: 2023/06/14 09:03:17 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../srcs/pipex.h"
+#include "libft.h"
 
 static void	ft_translation(char const *s, char c, int *i)
 {

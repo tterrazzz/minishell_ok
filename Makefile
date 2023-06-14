@@ -6,12 +6,15 @@ LIB = libft.a
 NAME = minishell
 
 UTL_DIR =	utils
-UTL_FILES =	
-
+UTL_FILES =	\
+			ft_node_add_front.c
 UTL =	$(addprefix $(UTL_DIR)/, $(UTL_FILES))
 
 SRC_DIR =	./srcs
 SRC_FILES =	\
+			ft_error.c \
+			ft_free_everything.c \
+			ft_struct_init.c \
 			main.c
 SRC =	$(UTL) $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 

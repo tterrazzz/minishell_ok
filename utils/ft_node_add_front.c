@@ -10,13 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../srcs/pipex.h"
+#include "../srcs/minishell.h"
 
 /*  ft_node_create creates a node and splits the command and the options
 	to fill the char **name_options and returns an initiated node */
 static t_list	*ft_node_create(char *argv_cmd)
 {
-	t_list	*cmd;
+	(void *) argv_cmd;
+	/*t_list	*cmd;
 
 	if (!argv_cmd)
 		return (NULL);
@@ -30,14 +31,16 @@ static t_list	*ft_node_create(char *argv_cmd)
 	cmd->path = NULL;
 	cmd->next = NULL;
 	cmd->prev = NULL;
-	return (cmd);
+	return (cmd);*/
 }
 
 /*  ft_node_add_front creates a node calling ft_node_create and adds it
 	at the front of the list */
 void	ft_node_add_front(t_struct *s, char *cmd_name)
 {
-	t_list	*temp;
+	(void *) s;
+	(void *) cmd_name;
+	/*t_list	*temp;
 
 	if (!s || !cmd_name)
 		return ;
@@ -51,5 +54,5 @@ void	ft_node_add_front(t_struct *s, char *cmd_name)
 		temp->next = s->cmd;
 		s->cmd->prev = temp;
 	}
-	s->cmd = temp;
+	s->cmd = temp;*/
 }

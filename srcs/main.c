@@ -3,11 +3,15 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
+	t_struct	*s;
+	char		*line;
 
 	(void) argc;
 	(void) argv;
-	(void) envp;
+	s = malloc(sizeof(t_struct));
+	if (!s)
+		return (ft_error(MALLOC, "malloc"), 1);
+	ft_struct_init(s, envp);
 	while (1)
 	{
 		line = readline("minishell% ");
@@ -19,5 +23,6 @@ int	main(int argc, char **argv, char **envp)
 		add_history(line);
 		free(line);
 	}
+	ft_free_everything(s);
 	return (0);
 }

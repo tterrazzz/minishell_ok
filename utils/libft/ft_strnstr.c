@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/13 15:07:33 by avan              #+#    #+#             */
-/*   Updated: 2023/04/22 13:15:55 by avan             ###   ########.fr       */
+/*   Created: 2023/06/01 16:55:27 by marvin            #+#    #+#             */
+/*   Updated: 2023/06/14 09:04:47 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ static int	ft_translation(char *str, char *tosearch)
 	return (1);
 }
 
+/*	ft_strnstr searches a needle string inside a haystack string within
+	len size, it returns the adress of the first char if it finds needle
+	in haystack, otherwise, it returns NULL */
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
 	size_t	i;

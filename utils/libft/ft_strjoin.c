@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/14 12:46:06 by avan              #+#    #+#             */
-/*   Updated: 2022/11/14 13:02:23 by avan             ###   ########.fr       */
+/*   Created: 2023/06/01 16:53:19 by marvin            #+#    #+#             */
+/*   Updated: 2023/06/14 09:03:46 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+/*	ft_strjoin gets two strings and returns a malloc copy of both strings
+	appended */
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	int		i;

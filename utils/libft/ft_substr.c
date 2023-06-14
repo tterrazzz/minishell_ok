@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/14 12:11:59 by avan              #+#    #+#             */
-/*   Updated: 2022/11/29 17:59:39 by avan             ###   ########.fr       */
+/*   Created: 2023/06/01 16:56:01 by marvin            #+#    #+#             */
+/*   Updated: 2023/06/14 09:04:57 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+
+/*	ft_substr creates and returns a malloc string of a portion or complete
+	part of a s string from the start position to the len size */
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*str;
@@ -31,13 +34,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	l = ft_strlcpy(str, &s[start], l);
 	return (str);
 }
-
-/*int	main(void)
-  {
-  char	*s = "tripouille";
-  char	*smalloc;
-
-  smalloc = ft_substr(s, 1, 1);
-  printf("smalloc = %s\n", smalloc);
-  return (0);
-  }*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 10:51:11 by avan              #+#    #+#             */
-/*   Updated: 2022/11/18 20:08:31 by avan             ###   ########.fr       */
+/*   Created: 2023/06/01 16:52:17 by marvin            #+#    #+#             */
+/*   Updated: 2023/06/14 09:03:10 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static char	*ft_deploiementmot(char const *strpos, char c, int *i, char **stock)
 	return (str);
 }
 
+/*	ft_split splits a string of char with a char and returns a char ** */
 char	**ft_split(char const *s, char c)
 {
 	int			i;
