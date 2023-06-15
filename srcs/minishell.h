@@ -7,6 +7,13 @@
 
 # define SYNTAX 1
 # define MALLOC 2
+# define PIPE 3
+# define FORK 4
+# define FIILE 5
+
+# define INFILE_PERMISSION_DENIED 1
+
+# include <fcntl.h>
 
 typedef enum e_token_type
 {
@@ -35,13 +42,26 @@ typedef struct s_token
 	t_Tokentype	type;
 }	t_token;
 
+typedef struct s_redirec
+{
+	struct s_redirec	*next;
+	struct s_redirec	*prev;
+	char				*filename;
+	int					index;
+	int					in_or_out;
+}	t_redirec;
+
 typedef struct s_parsed
 {
 	char			**command;
 	char			*path;
 	pid_t			pid;
-	char			**redirection_in;
-	char			**redirection_out;
+	t_redirec		*redirection;
+	int				*pipe_fd;
+	int				nb_redirect;
+	int				fd_in;
+	int				fd_out;
+	int				error;
 	struct s_parsed	*next;
 	struct s_parsed	*prev;
 }	t_parsed;
@@ -51,12 +71,15 @@ typedef struct s_struct
 	t_envp		*envp;
 	t_token		*token;
 	t_parsed	*parsed;
-	int			*pid;
+	int			i_cmd;
+	int			nb_cmd;
+	int			nb_pipe;
+	int			error;
 }	t_struct;
 
 /*  Errors */
 
-void	ft_error(int error, char *line);
+void	ft_error(t_struct *s, int error, char *name);
 
 /*  Freeing */
 
