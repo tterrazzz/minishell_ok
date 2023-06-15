@@ -1,6 +1,6 @@
 CC = @gcc
 CFLAGS = -Wall -Wextra -Werror -I ./srcs/minishell.h
-RM = @rm -f
+RM = @rm -rf
 LIB_DIR = ./utils/libft
 LIB = libft.a
 NAME = minishell
@@ -24,7 +24,10 @@ OBJ_DIR = ./objs
 OBJ =	$(addprefix $(OBJ_DIR)/, $(UTL:.c=.o)) $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
 
 
-all: $(NAME)
+all: $(OBJ_DIR)/$(UTL_DIR) $(NAME)
+
+$(OBJ_DIR)/$(UTL_DIR):
+	@mkdir -p $@
 
 $(NAME): $(OBJ) $(LIB_DIR)/$(LIB)
 	@echo "Compiling Executable"
@@ -41,7 +44,7 @@ $(LIB_DIR)/$(LIB):
 
 clean:
 	@echo "Removing Objects"
-	$(RM) $(OBJ)
+	$(RM) $(OBJ) $(OBJ_DIR)
 
 fclean: clean
 	@echo "Removing Executable"
