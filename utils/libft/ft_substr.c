@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llaurenc <llaurenc@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:56:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/06/14 09:04:57 by avan             ###   ########.fr       */
+/*   Updated: 2023/06/15 13:33:48 by llaurenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,16 @@
 	part of a s string from the start position to the len size */
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*str;
-	size_t	l;
+	char	*ret;
+	int		i;
 
-	if (!s)
+	i = 0;
+	ret = malloc(((len - start + 1) * sizeof(char)));
+	if (!ret)
 		return (NULL);
-	l = ft_strlen(s);
-	if (start >= l)
-		return (ft_strdup(""));
-	l = l - start + 1;
-	if (l > len)
-		l = len + 1;
-	str = malloc(sizeof(char) * l);
-	if (!str)
-		return (str);
-	l = ft_strlcpy(str, &s[start], l);
-	return (str);
+	while (start < len)
+		ret[i++] = s[start++];
+	ret[i] = '\0';
+	return (ret);
 }
+

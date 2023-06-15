@@ -54,7 +54,7 @@ void	ft_lexer(t_struct *s, char *line)
 
 	(void) s;
 	line = ft_add_space(line);
-	temp = ft_split(line, ' ');
+	temp = ft_minisplit(line, ' ');
 	i = 0;
 	while (temp[i])
 		printf ("%s\n", temp[i++]);
