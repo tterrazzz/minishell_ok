@@ -50,12 +50,16 @@ char	*ft_add_space(char *line)
 void	ft_lexer(t_struct *s, char *line)
 {
 	char	**temp;
-	int		i;
+	//int		i;
 
 	(void) s;
 	line = ft_add_space(line);
 	temp = ft_minisplit(line, ' ');
-	i = 0;
-	while (temp[i])
-		printf ("%s\n", temp[i++]);
+	// i = 0;
+	// while (temp[i])
+	// {
+	// 	printf ("temp[%d] : %s\n", i, temp[i]);
+	// 	i++;
+	// }
+	// printf ("temp[%d] : %s\n", i, temp[i]);
 }

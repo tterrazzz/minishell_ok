@@ -9,7 +9,6 @@ static void	ft_quote(char *str, int	*i, int *mot)
 		(*i)++;
 		while (str[*i] && str[*i] != '\"')
 			(*i)++;
-		(*i)++;
 	}
 	if (str[*i] == '\'')
 	{
@@ -18,60 +17,52 @@ static void	ft_quote(char *str, int	*i, int *mot)
 		(*i)++;
 		while (str[*i] && str[*i] != '\'')
 			(*i)++;
-		(*i)++;
 	}
 }
 
-static int	ft_mot(char *str, char c)
+static int	ft_mot(char *str, char c, int i, int mot)
 {
-	int	i;
-	int	mot;
+	int	x;
 
-	i = 0;
-	mot = 0;
 	while (str[i])
 	{
 		ft_quote(str, &i, &mot);
+		x = i;
 		while (str[i] && str[i] == c)
 			i++;
-		ft_quote(str, &i, &mot);
-		if (str[i])
+		if (str[i] && str[i] != '\"' && str[i] != '\'')
 			mot++;
-		while (str[i] && str[i] != c)
+		if (x != i)
 		{
 			ft_quote(str, &i, &mot);
-			i++;
+			x = i;
+		}
+		while (str[i] && str[i] != c)
+		{
+			if ((str[i] == '\"' || str[i] == '\'') && (x != i))
+				ft_quote(str, &i, &mot);
+			else
+				i++;
 		}
 	}
-	printf("i : %d et mot : %d\n", i, mot);
 	return (mot);
 }
 
-// static void	ft_split_quote(char **tab, char *str, int *i, int *j)
-// {
-// 	int	start;
-
-// 	if (str[*i] == '\"')
-// 	{
-// 		(*i)++;
-// 		start = (*i);
-// 		while (str[*i] && str[*i] != '\"')
-// 			(*i)++;
-// 		if (start != (*i))
-// 			tab[(*j)++] = ft_substr(str, start, *i);
-// 		(*i)++;
-// 	}
-// 	if (str[*i] == '\'')
-// 	{
-// 		(*i)++;
-// 		start = (*i);
-// 		while (str[*i] && str[*i] != '\'')
-// 			(*i)++;
-// 		if (start != (*i))
-// 			tab[(*j)++] = ft_substr(str, start, *i);
-// 		(*i)++;
-// 	}
-// }
+static void	ft_skip_quote(char *str, int *i)
+{
+	if (str[*i] == '\"')
+	{
+		(*i)++;
+		while (str[*i] && str[*i] != '\"')
+			(*i)++;
+	}
+	if (str[*i] == '\'')
+	{
+		(*i)++;
+		while (str[*i] && str[*i] != '\'')
+			(*i)++;
+	}
+}
 
 char	**ft_minisplit(char *line, char c)
 {
@@ -82,45 +73,22 @@ char	**ft_minisplit(char *line, char c)
 
 	i = 0;
 	j = 0;
-	tab = malloc(sizeof(char *) * (ft_mot(line, c) + 1));
+	tab = malloc(sizeof(char *) * (ft_mot(line, c, 0, 0) + 1));
 	if (tab == NULL)
 		return (NULL);
 	while (line[i])
 	{
-		//ft_split_quote(tab, line, &i, &j);
 		while (line[i] && line[i] == c)
 			i++;
-		//ft_split_quote(tab, line, &i, &j);
 		start = i;
 		while (line[i] && line[i] != c)
 		{
-			//ft_split_quote(tab, line, &i, &j);
+			ft_skip_quote(line, &i);
 			i++;
 		}
 		if (start != i)
-		{
-			tab[j] = ft_substr(line, start, i);
-			printf("start = [%d] = %c\ni = [%d] = %c\n", start, line[start], i, line[i]);
-			printf(" tab [%d] = %s\n", j, tab[j]);
-			j++;
-		}
+			tab[j++] = ft_substr(line, start, i);
 		tab[j] = NULL;
 	}
 	return (tab);
 }
-
-// int	main(int argc, char **argv)
-// {
-// 	int	i;
-// 	int	mot;
-
-// 	(void)argc;
-// 	i = 0;
-// 	mot = 0;
-// 	printf("%c\n", argv[1][7]);
-// 	printf("%c\n", argv[1][8]);
-// 	printf("%c\n", argv[1][9]);
-// 	printf("%c\n", argv[1][10]);
-// 	ft_mot(argv[1], ' ');
-// 	printf("%c\n", argv[1][8]);
-// }
