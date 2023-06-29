@@ -7,6 +7,13 @@
 
 # define SYNTAX 1
 # define MALLOC 2
+# define PIPE 3
+# define FORK 4
+# define FIILE 5
+
+# define INFILE_PERMISSION_DENIED 1
+
+# include <fcntl.h>
 
 typedef enum e_token_type
 {
@@ -69,7 +76,10 @@ typedef struct s_struct
 	t_envp		*envp;
 	t_token		*token;
 	t_parsed	*parsed;
-	int			*pid;
+	int			i_cmd;
+	int			nb_cmd;
+	int			nb_pipe;
+	int			error;
 }	t_struct;
 
 /*  Errors */
