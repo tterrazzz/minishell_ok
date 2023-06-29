@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llaurenc <llaurenc@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:55:00 by marvin            #+#    #+#             */
-/*   Updated: 2023/06/14 09:04:27 by avan             ###   ########.fr       */
+/*   Updated: 2023/06/28 09:52:52 by llaurenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	unsigned char	*str1;
 	unsigned char	*str2;
 
-	if (!s1 || !s2)
-		return (2147483647);
+	if (!s1 && !s2)
+		return (1);
 	i = 0;
 	str1 = (unsigned char *)s1;
 	str2 = (unsigned char *)s2;

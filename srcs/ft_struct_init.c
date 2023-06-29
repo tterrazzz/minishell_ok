@@ -1,10 +1,11 @@
 #include "minishell.h"
 
-static void	ft_struct_envp(t_struct *s, char **envp)
+void	ft_struct_envp(t_struct *s, char **envp)
 {
 	t_envp	*temp;
 	int		i;
 
+	s->envp = NULL;
 	if (!s)
 		return ;
 	i = 0;
@@ -21,13 +22,11 @@ static void	ft_struct_envp(t_struct *s, char **envp)
 }
 
 /*  void ft_struct_init creates the main struct and gets the envp */
-void	ft_struct_init(t_struct *s, char **envp)
+void	ft_struct_init(t_struct *s)
 {
 	if (!s)
 		return ;
-	s->envp = NULL;
 	s->token = NULL;
 	s->parsed = NULL;
 	s->pid = NULL;
-	ft_struct_envp(s, envp);
 }

@@ -7,6 +7,11 @@ static void	ft_quote(char *str, int	*i, int *mot)
 		if ((*i) == 0 || str[(*i) - 1] == ' ')
 			(*mot)++;
 		(*i)++;
+		if (str[*i] == '\"')
+		{
+			(*i)++;
+			return ;
+		}
 		while (str[*i] && str[*i] != '\"')
 			(*i)++;
 	}
@@ -15,6 +20,11 @@ static void	ft_quote(char *str, int	*i, int *mot)
 		if ((*i) == 0 || str[(*i) - 1] == ' ')
 			(*mot)++;
 		(*i)++;
+		if (str[*i] == '\'')
+		{
+			(*i)++;
+			return ;
+		}
 		while (str[*i] && str[*i] != '\'')
 			(*i)++;
 	}
@@ -30,7 +40,7 @@ static int	ft_mot(char *str, char c, int i, int mot)
 		x = i;
 		while (str[i] && str[i] == c)
 			i++;
-		if (str[i] && str[i] != '\"' && str[i] != '\'')
+		if (str[i] && (str[i] != '\"' && str[i] != '\''))
 			mot++;
 		if (x != i)
 		{
@@ -45,6 +55,7 @@ static int	ft_mot(char *str, char c, int i, int mot)
 				i++;
 		}
 	}
+	printf("mot : %d\n", mot);
 	return (mot);
 }
 
@@ -88,7 +99,24 @@ char	**ft_minisplit(char *line, char c)
 		}
 		if (start != i)
 			tab[j++] = ft_substr(line, start, i);
-		tab[j] = NULL;
 	}
+	tab[j] = 0;
 	return (tab);
 }
+
+// char	**ft_minisplit(char *line, char c)
+// {
+// 	char	**tab;
+// 	int		i;
+// 	int		j;
+
+// 	i = 0;
+// 	j = 0;
+// 	tab = malloc(sizeof(char *) * (ft_mot(line, c, 0, 0) + 1));
+// 	if (tab == NULL)
+// 		return (NULL);
+// 	while (line[i])
+// 	{
+
+// 	}
+// }

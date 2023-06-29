@@ -8,15 +8,18 @@ NAME = minishell
 UTL_DIR =	utils
 UTL_FILES =	\
 			ft_node_add_front.c \
-			minisplit.c
+			minisplit.c \
+			tokenizer.c 
 UTL =	$(addprefix $(UTL_DIR)/, $(UTL_FILES))
 
 SRC_DIR =	./srcs
 SRC_FILES =	\
+			free_loop.c \
 			ft_error.c \
 			ft_free_everything.c \
 			lexer.c \
 			ft_struct_init.c \
+			parsing.c \
 			main.c
 SRC =	$(UTL) $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 

@@ -3,24 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llaurenc <llaurenc@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:54:33 by marvin            #+#    #+#             */
-/*   Updated: 2023/06/14 09:04:11 by avan             ###   ########.fr       */
+/*   Updated: 2023/06/28 10:51:22 by llaurenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include  <stdio.h>
 
 /*	ft_strlen gets a string and returns the size of it */
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
 
-	if (!str)
-		return (0);
+	// if (!str)
+	// 	return (0);
 	i = 0;
 	while (str[i])
+		i++;
+	return (i);
+}
+
+int	ft_strlen2(char	*s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
 		i++;
 	return (i);
 }

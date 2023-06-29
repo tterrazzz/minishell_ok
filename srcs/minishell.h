@@ -31,17 +31,35 @@ typedef struct s_envp
 
 typedef struct s_token
 {
-	char		*str;
-	t_Tokentype	type;
+	char			*str;
+	t_Tokentype		type;
+	struct s_token	*next;
 }	t_token;
+
+typedef struct s_redirec
+{
+	struct s_redirec	*next;
+	struct s_redirec	*prev;
+	char				*filename;	
+	int					*here_d_pipe_fd;
+	pid_t				pid;				
+	int					fd;					
+	t_Tokentype			type;
+}	t_redirec;
 
 typedef struct s_parsed
 {
 	char			**command;
 	char			*path;
 	pid_t			pid;
-	char			**redirection_in;
-	char			**redirection_out;
+	t_redirec		*redirection;
+	t_redirec		*last_redire;
+//	int				*pipe_fd;
+	int				*here_d_pipe_fd;
+//	int				previous_fd;
+	int				fd_in;
+	int				fd_out;
+	int				error;
 	struct s_parsed	*next;
 	struct s_parsed	*prev;
 }	t_parsed;
@@ -56,10 +74,12 @@ typedef struct s_struct
 
 /*  Errors */
 
+void	ft_parsing_error(int error);
 void	ft_error(int error, char *line);
 
 /*  Freeing */
 
+void	ft_free_loop(t_struct *s);
 void	ft_free_everything(t_struct *s);
 //void	ft_free_ptr(void *ptr);
 
@@ -67,14 +87,20 @@ void	ft_free_everything(t_struct *s);
 
 void	ft_lexer(t_struct *s, char *line);
 
+/* Parsing */
+
+void	ft_parsing(t_struct *s);
+
 /*	Init */
 
-void	ft_struct_init(t_struct *s, char **envp);
+void	ft_struct_init(t_struct *s);
+void	ft_struct_envp(t_struct *s, char **envp);
 
 /*  Utils */
 
 void	ft_node_add_front(t_struct *s, char *cmd_name);
 void	ft_node_add_back_envp(t_struct *s);
 char	**ft_minisplit(char *line, char c);
+void	ft_struct_token(t_struct *s, char **temp);
 
 #endif

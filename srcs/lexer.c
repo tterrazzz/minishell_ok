@@ -18,6 +18,7 @@ static int	ft_count_pipe(char *line)
 	return (count);
 }
 
+/* add a apce before and after a pipe */
 char	*ft_add_space(char *line)
 {
 	int		i;
@@ -50,16 +51,22 @@ char	*ft_add_space(char *line)
 void	ft_lexer(t_struct *s, char *line)
 {
 	char	**temp;
-	//int		i;
+	int		i;
 
-	(void) s;
+	i = -1;
 	line = ft_add_space(line);
 	temp = ft_minisplit(line, ' ');
-	// i = 0;
-	// while (temp[i])
+	ft_struct_token(s, temp);
+	if (!s->token)
+		printf("s->token = NULL\n");
+	// while (s->token != NULL)
 	// {
-	// 	printf ("temp[%d] : %s\n", i, temp[i]);
-	// 	i++;
+	// 	printf(" le token est : %s\n", s->token->str);
+	// 	printf("le token est de type : %d\n",s->token->type);
+	// 	s->token = s->token->next;
 	// }
-	// printf ("temp[%d] : %s\n", i, temp[i]);
+	while (temp[++i])
+		free(temp[i]);
+	free(temp);
+	free(line);
 }
