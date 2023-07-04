@@ -56,6 +56,15 @@ void	ft_lexer(t_struct *s, char *line)
 	i = -1;
 	line = ft_add_space(line);
 	temp = ft_minisplit(line, ' ');
+	while (temp[++i])
+		printf("temp de [%d] = [%s]\n", i, temp[i]);
+	temp = ft_dollar_check(s, temp);
+	temp = ft_quote_check(s, temp);
+	i = -1;
+	printf("apres quote check\n");
+	while (temp[++i])
+		printf("temp de [%d] = [%s]\n", i, temp[i]);
+	exit(0);
 	ft_struct_token(s, temp);
 	if (!s->token)
 		printf("s->token = NULL\n");
@@ -65,6 +74,7 @@ void	ft_lexer(t_struct *s, char *line)
 	// 	printf("le token est de type : %d\n",s->token->type);
 	// 	s->token = s->token->next;
 	// }
+	i = -1;
 	while (temp[++i])
 		free(temp[i]);
 	free(temp);

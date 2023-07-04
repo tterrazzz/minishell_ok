@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(line);
 		ft_lexer(&s, line);
 		ft_parsing(&s);
-		system("leaks minishell");
+		//system("leaks minishell");
 		//ft_free_loop(&s);
 		
 	}

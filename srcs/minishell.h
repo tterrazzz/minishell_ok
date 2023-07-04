@@ -96,10 +96,16 @@ void	ft_free_everything(t_struct *s);
 /*  Lexer */
 
 void	ft_lexer(t_struct *s, char *line);
+char	**ft_dollar_check(t_struct *s, char **tab);
+char	**ft_quote_check(t_struct *s, char **tab);
 
 /* Parsing */
 
 void	ft_parsing(t_struct *s);
+
+/* Expander */
+
+char	*ft_get_env_value(t_struct *s, char *env_name);
 
 /*	Init */
 
@@ -112,5 +118,8 @@ void	ft_node_add_front(t_struct *s, char *cmd_name);
 void	ft_node_add_back_envp(t_struct *s);
 char	**ft_minisplit(char *line, char c);
 void	ft_struct_token(t_struct *s, char **temp);
+char	*ft_strcpy(char *dest, const char *src);
+char	*ft_strncpy(char *dest, const char *src, size_t n);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif

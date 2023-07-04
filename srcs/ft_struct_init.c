@@ -28,5 +28,4 @@ void	ft_struct_init(t_struct *s)
 		return ;
 	s->token = NULL;
 	s->parsed = NULL;
-	s->pid = NULL;
 }

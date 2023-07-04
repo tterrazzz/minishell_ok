@@ -1,34 +1,49 @@
 #include "minishell.h"
 
-// static void	print_parsed_list(t_parsed *parsed_list)
-// {
-// 	t_parsed	*current;
-// 	int			node_count;
-// 	int			i;
+static void	print_parsed_list(t_parsed *parsed_list)
+{
+	t_parsed	*current;
+	int			node_count;
+	int			i;
 
-// 	current = parsed_list;
-// 	node_count = 0;
-// 	while (current != NULL)
-// 	{
-// 		printf("Node %d:\n", node_count);
-// 		if (current->command != NULL)
-// 		{
-// 			i = 0;
-// 			while (current->command[i] != NULL)
-// 			{
-// 				printf("%s\n",current->command[i]);
-// 				i++;
-// 			}
-// 		}
-// 		else
-// 		{
-// 			printf("No commands in this node.\n");
-// 		}
-// 		printf("\n");
-// 		current = current->next;
-// 		node_count++;
-// 	}
-// }
+	current = parsed_list;
+	node_count = 0;
+	while (current != NULL)
+	{
+		printf("Node %d:\n", node_count);
+		if (current->command != NULL)
+		{
+			i = 0;
+			while (current->command[i] != NULL)
+			{
+				printf("%s\n",current->command[i]);
+				i++;
+			}
+		}
+		else
+		{
+			printf("No commands in this node.\n");
+		}
+		printf("\n");
+		current = current->next;
+		node_count++;
+	}
+}
+
+static void	ft_fill_parsed_node(t_parsed **parsed_node, char **cmd_copy)
+{
+	(*parsed_node)->command = cmd_copy;
+	(*parsed_node)->path = NULL;
+	(*parsed_node)->redirection = NULL;
+	(*parsed_node)->last_redire = NULL;
+	// (*parsed_node)->pipe_fd = NULL;
+	(*parsed_node)->here_d_pipe_fd = NULL;
+	(*parsed_node)->fd_in = 0;
+	(*parsed_node)->fd_out = 0;
+	(*parsed_node)->error = 0;
+	(*parsed_node)->next = NULL;
+	(*parsed_node)->prev = NULL;
+}
 
 static t_parsed	*ft_create_parsed_node(char **command)
 {
@@ -36,8 +51,6 @@ static t_parsed	*ft_create_parsed_node(char **command)
 	char		**command_copy;
 	int			i;
 
-	if (!command)
-		return (NULL);
 	parsed_node = malloc(sizeof(t_parsed));
 	if (!parsed_node)
 		return (NULL);
@@ -57,17 +70,7 @@ static t_parsed	*ft_create_parsed_node(char **command)
 		i++;
 	}
 	command_copy[i] = NULL;
-	parsed_node->command = command_copy;
-	parsed_node->path = NULL;
-	parsed_node->redirection = NULL;
-	parsed_node->last_redire = NULL;
-	// parsed_node->pipe_fd = NULL;
-	parsed_node->here_d_pipe_fd = NULL;
-	parsed_node->fd_in = 0;
-	parsed_node->fd_out = 0;
-	parsed_node->error = 0;
-	parsed_node->next = NULL;
-	parsed_node->prev = NULL;
+	ft_fill_parsed_node(&parsed_node, command_copy);
 	return (parsed_node);
 }
 
@@ -134,16 +137,18 @@ void	ft_parsing(t_struct *s)
 	current_parsed = s->parsed;
 	while (current_token != NULL)
 	{
+		if (current_token->type == 9)
 		printf("current token = %s\n", current_token->str);
 		ft_fill_temp(s, &current_token, 0);
 		if (current_token != NULL)
 			current_token = current_token->next;
 	}
-	while (s->parsed->command[i])
-		free(s->parsed->command[i++]);
-	free(s->parsed->command);
-	//free(s->parsed);
-	free(s->token)
+	// while (s->parsed->command[i])
+	// 	free(s->parsed->command[i++]);
+	// free(s->parsed->command);
+	// free(s->parsed);
+	// free(s->token->str);
+	// free(s->token);
 	//system("leaks minishell");
-	//print_parsed_list(s->parsed);
+	print_parsed_list(s->parsed);
 }

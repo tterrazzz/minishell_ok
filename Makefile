@@ -1,5 +1,5 @@
 CC = @gcc
-CFLAGS = -Wall -Wextra -Werror -I ./srcs/minishell.h
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -I ./srcs/minishell.h
 RM = @rm -rf
 LIB_DIR = ./utils/libft
 LIB = libft.a
@@ -9,17 +9,21 @@ UTL_DIR =	utils
 UTL_FILES =	\
 			ft_node_add_front.c \
 			minisplit.c \
+			strcpy.c \
 			tokenizer.c 
 UTL =	$(addprefix $(UTL_DIR)/, $(UTL_FILES))
 
 SRC_DIR =	./srcs
 SRC_FILES =	\
+			dollar.c \
+			expander.c \
 			free_loop.c \
 			ft_error.c \
 			ft_free_everything.c \
 			lexer.c \
 			ft_struct_init.c \
 			parsing.c \
+			quote.c \
 			main.c
 SRC =	$(UTL) $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
