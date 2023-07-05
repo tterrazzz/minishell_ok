@@ -8,10 +8,7 @@ static void	ft_quote(char *str, int	*i, int *mot)
 			(*mot)++;
 		(*i)++;
 		if (str[*i] == '\"')
-		{
-			(*i)++;
 			return ;
-		}
 		while (str[*i] && str[*i] != '\"')
 			(*i)++;
 	}
@@ -21,10 +18,7 @@ static void	ft_quote(char *str, int	*i, int *mot)
 			(*mot)++;
 		(*i)++;
 		if (str[*i] == '\'')
-		{
-			(*i)++;
 			return ;
-		}
 		while (str[*i] && str[*i] != '\'')
 			(*i)++;
 	}
@@ -50,9 +44,10 @@ static int	ft_mot(char *str, char c, int i, int mot)
 		while (str[i] && str[i] != c)
 		{
 			if ((str[i] == '\"' || str[i] == '\'') && (x != i))
+			{
 				ft_quote(str, &i, &mot);
-			else
-				i++;
+			}
+			i++;
 		}
 	}
 	printf("mot : %d\n", mot);

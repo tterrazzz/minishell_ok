@@ -14,14 +14,14 @@ int	main(int argc, char **argv, char **envp)
 	{
 		ft_struct_init(&s);
 		line = readline("minishell$ ");
-		if (line == NULL || !ft_strncmp("exit\n", line, ft_strlen(line)))
+		if (!ft_strncmp("exit\n", line, ft_strlen(line)))
 		{
 			write(1, "exit\n", 5);
 			exit(0);
 		}
 		add_history(line);
 		ft_lexer(&s, line);
-		ft_parsing(&s);
+		//ft_parsing(&s);
 		//system("leaks minishell");
 		//ft_free_loop(&s);
 		

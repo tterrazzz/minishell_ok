@@ -38,7 +38,7 @@ typedef struct s_envp
 
 typedef struct s_token
 {
-	char			*str;
+	char			c;
 	t_Tokentype		type;
 	struct s_token	*next;
 }	t_token;

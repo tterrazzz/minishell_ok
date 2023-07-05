@@ -16,7 +16,7 @@ static void	print_parsed_list(t_parsed *parsed_list)
 			i = 0;
 			while (current->command[i] != NULL)
 			{
-				printf("%s\n",current->command[i]);
+				printf("%s\n", current->command[i]);
 				i++;
 			}
 		}
