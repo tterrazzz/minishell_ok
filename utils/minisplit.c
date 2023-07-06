@@ -99,19 +99,3 @@ char	**ft_minisplit(char *line, char c)
 	return (tab);
 }
 
-// char	**ft_minisplit(char *line, char c)
-// {
-// 	char	**tab;
-// 	int		i;
-// 	int		j;
-
-// 	i = 0;
-// 	j = 0;
-// 	tab = malloc(sizeof(char *) * (ft_mot(line, c, 0, 0) + 1));
-// 	if (tab == NULL)
-// 		return (NULL);
-// 	while (line[i])
-// 	{
-
-// 	}
-// }

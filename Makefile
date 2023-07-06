@@ -20,10 +20,12 @@ SRC_FILES =	\
 			free_loop.c \
 			ft_error.c \
 			ft_free_everything.c \
-			lexer.c \
 			ft_struct_init.c \
+			lexer.c \
+			main.c \
+			parsing.c \
 			quote.c \
-			main.c
+
 SRC =	$(UTL) $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
 OBJ_DIR = ./objs

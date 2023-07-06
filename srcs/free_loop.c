@@ -6,8 +6,6 @@ static void	ft_free_token(t_struct *s)
 	while (s->token)
 	{
 		temp = s->token->next;
-		if (s->token->str != NULL)
-			free(s->token->str);
 		free(s->token);
 		s->token = temp;
 	}

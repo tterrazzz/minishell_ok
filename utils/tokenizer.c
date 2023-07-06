@@ -26,7 +26,9 @@ static void	ft_node_add_back_token(t_struct *s)
 
 static void	ft_tokenization(t_token *prov)
 {
-	if (prov->str[1] && prov->str[0] == '<' && prov->str[1] == '<')
+	if (prov->str[0] == '\0')
+		prov->type = cmd;
+	else if (prov->str[1] && prov->str[0] == '<' && prov->str[1] == '<')
 		prov->type = double_redirect_in;
 	else if (prov->str[1] && prov->str[0] == '>' && prov->str[1] == '>')
 		prov->type = double_redirect_out;

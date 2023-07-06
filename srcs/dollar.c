@@ -22,7 +22,7 @@ static char	*ft_dollar_change(char *str, int start, int end, char *new_str)
 	result = ft_strnew(str_len - (end - start) + new_str_len);
 	printf("strlen de new str : %d\n", new_str_len);
 	if (start < 0 || end < 0 || start >= str_len
-		|| end >= str_len || start > end)
+		|| end >= str_len)
 		printf("erreur de jugement \n");
 		//return (NULL);
 	ft_strncpy(result, str, start);
@@ -62,18 +62,28 @@ static char	*ft_dollar_replace(t_struct *s, char *line, int i)
 	return (line);
 }
 
-char	**ft_dollar_check(t_struct *s, char **tab)
+static int	ft_is_flagged(char c, int flag)
+{
+	if (c == '\"' && flag == 1)
+		flag = 0;
+	if (c == '\"' && flag == 0)
+		flag = 1;
+	return (flag);
+}
+
+char	**ft_dollar_check(t_struct *s, char **tab, int j)
 {
 	int		i;
-	int		j;
+	int		flag;
 
-	j = -1;
+	flag = 0;
 	while (tab[++j])
 	{
 		i = 0;
 		while (tab[j][i])
 		{
-			if (tab[j][i] == '\'')
+			flag = ft_is_flagged(tab[j][i], flag);
+			if (tab[j][i] == '\'' && flag == 0)
 			{
 				i++;
 				while (tab[j][i] != '\'')

@@ -38,7 +38,7 @@ typedef struct s_envp
 
 typedef struct s_token
 {
-	char			c;
+	char			*str;
 	t_Tokentype		type;
 	struct s_token	*next;
 }	t_token;
@@ -96,8 +96,8 @@ void	ft_free_everything(t_struct *s);
 /*  Lexer */
 
 void	ft_lexer(t_struct *s, char *line);
-char	**ft_dollar_check(t_struct *s, char **tab);
-char	**ft_quote_check(t_struct *s, char **tab);
+char	**ft_dollar_check(t_struct *s, char **tab, int j);
+char	**ft_quote_check(char **tab, int j, int i, int start);
 
 /* Parsing */
 

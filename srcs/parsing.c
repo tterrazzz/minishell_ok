@@ -30,8 +30,10 @@ static void	print_parsed_list(t_parsed *parsed_list)
 	}
 }
 
-static void	ft_fill_parsed_node(t_parsed **parsed_node, char **cmd_copy)
+static void	ft_fill_parsed_node(t_struct *s, t_parsed **parsed_node,
+char **cmd_copy)
 {
+	cmd_copy = ft_dollar_check(s, cmd_copy, -1);
 	(*parsed_node)->command = cmd_copy;
 	(*parsed_node)->path = NULL;
 	(*parsed_node)->redirection = NULL;
@@ -45,7 +47,7 @@ static void	ft_fill_parsed_node(t_parsed **parsed_node, char **cmd_copy)
 	(*parsed_node)->prev = NULL;
 }
 
-static t_parsed	*ft_create_parsed_node(char **command)
+static t_parsed	*ft_create_parsed_node(t_struct *s, char **command)
 {
 	t_parsed	*parsed_node;
 	char		**command_copy;
@@ -54,7 +56,7 @@ static t_parsed	*ft_create_parsed_node(char **command)
 	parsed_node = malloc(sizeof(t_parsed));
 	if (!parsed_node)
 		return (NULL);
-		i = 0;
+	i = 0;
 	while (command[i] != NULL)
 		i++;
 	command_copy = malloc((i + 1) * sizeof(char *));
@@ -70,7 +72,7 @@ static t_parsed	*ft_create_parsed_node(char **command)
 		i++;
 	}
 	command_copy[i] = NULL;
-	ft_fill_parsed_node(&parsed_node, command_copy);
+	ft_fill_parsed_node(s, &parsed_node, command_copy);
 	return (parsed_node);
 }
 
@@ -83,7 +85,7 @@ void	ft_node_add_back_parsed(t_struct *s, char **command)
 
 	if (!s)
 		return ;
-	last = ft_create_parsed_node(command);
+	last = ft_create_parsed_node(s, command);
 	if (!(s->parsed))
 		s->parsed = last;
 	else
@@ -124,7 +126,6 @@ static void	ft_fill_temp(t_struct *s, t_token **current_token, int i)
 	free(temp);
 }
 
-
 void	ft_parsing(t_struct *s)
 {
 	t_token		*current_token;
@@ -137,7 +138,7 @@ void	ft_parsing(t_struct *s)
 	current_parsed = s->parsed;
 	while (current_token != NULL)
 	{
-		if (current_token->type == 9)
+		//if (current_token->type == 9)
 		printf("current token = %s\n", current_token->str);
 		ft_fill_temp(s, &current_token, 0);
 		if (current_token != NULL)

@@ -34,15 +34,8 @@ static char	*ft_quote_replace(char *line, int start, int *i)
 	return (result);
 }
 
-char	**ft_quote_check(t_struct *s, char **tab)
+char	**ft_quote_check(char **tab, int j, int i, int start)
 {
-	int	i;
-	int	j;
-	int	start;
-
-	(void)s;
-	i = 0;
-	j = -1;
 	while (tab[++j])
 	{
 		i = 0;
@@ -53,6 +46,14 @@ char	**ft_quote_check(t_struct *s, char **tab)
 				start = i;
 				i++;
 				while (tab[j][i] != '\"')
+					i++;
+				tab[j] = ft_quote_replace(tab[j], start, &i);
+			}
+			else if (tab[j][i] == '\'')
+			{
+				start = i;
+				i++;
+				while (tab[j][i] != '\'')
 					i++;
 				tab[j] = ft_quote_replace(tab[j], start, &i);
 			}
