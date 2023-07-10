@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	ft_count_pipe(char *line)
+static int	ft_count_pipe(t_struct *s, char *line)
 {
 	int	i;
 	int	count;
@@ -11,14 +11,15 @@ static int	ft_count_pipe(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '|')
+		ft_flag_quote(s, line[i]);
+		if (line[i] == '|' && s->f_dquote == 0 && s->f_quote == 0)
 			count += 2;
 		i++;
 	}
 	return (count);
 }
 
-static int	ft_count_redirect(char *line)
+static int	ft_count_redirect(t_struct *s, char *line)
 {
 	int	i;
 	int	count;
@@ -27,64 +28,46 @@ static int	ft_count_redirect(char *line)
 	count = 0;
 	while (line[i])
 	{
-		if ((line[i] == '<' && line [i + 1] == '<')
-			|| (line[i] == '>' && line[i + 1] == '>'))
+		ft_flag_quote(s, line[i]);
+		if ((line[i] == '<' && line [i + 1] == '<'
+				&& s->f_dquote == 0 && s->f_quote == 0)
+			|| (line[i] == '>' && line[i + 1] == '>'
+				&& s->f_dquote == 0 && s->f_quote == 0))
 		{
 			count += 2;
 			i++;
 		}
-		else if ((line[i] == '<' && line[i + 1] != '<')
-			|| (line[i] == '>' && line[i + 1] != '>'))
+		else if ((line[i] == '<' && line[i + 1] != '<'
+				&& s->f_dquote == 0 && s->f_quote == 0)
+			|| (line[i] == '>' && line[i + 1] != '>'
+				&& s->f_dquote == 0 && s->f_quote == 0))
 			count += 2;
 		i++;
 	}
 	return (count);
 }
 
-static char	*ft_space_add(char *line, char *str, int i, int y)
+static char	*ft_space_add(t_struct *s, char *line, char *str, int i, int y)
 {
 	while (line[i])
 	{
+		ft_flag_quote(s, line[i]);
 		str[y] = line [i];
-		if (line[i] == '|')
-		{
-			str[y] = ' ';
-			str[++y] = '|';
-			str[++y] = ' ';
-		}
-		if (line[i] == '<')
+		if (line[i] == '|' && s->f_dquote == 0 && s->f_quote == 0)
+			ft_write_space(&str, &y);
+		if (line[i] == '<' && s->f_dquote == 0 && s->f_quote == 0)
 		{
 			if (line[i + 1] == '<')
-			{
-				str[y] = ' ';
-				str[++y] = '<';
-				str[++y] = '<';
-				str[++y] = ' ';
-				i++;
-			}
+				ft_write_doubleredirec(&str, &i, &y, 1);
 			else
-			{
-				str[y] = ' ';
-				str[++y] = '<';
-				str[++y] = ' ';
-			}
+				ft_write_redirec(&str, &i, 1);
 		}
-		else if (line[i] == '>')
+		else if (line[i] == '>' && s->f_dquote == 0 && s->f_quote == 0)
 		{
 			if (line[i + 1] == '>')
-			{
-				str[y] = ' ';
-				str[++y] = '>';
-				str[++y] = '>';
-				str[++y] = ' ';
-				i++;
-			}
+				ft_write_doubleredirec(&str, &i, &y, 2);
 			else
-			{
-				str[y] = ' ';
-				str[++y] = '>';
-				str[++y] = ' ';
-			}
+				ft_write_redirec(&str, &i, 2);
 		}
 		i++;
 		y++;
@@ -94,17 +77,17 @@ static char	*ft_space_add(char *line, char *str, int i, int y)
 }
 
 /* add a apce before and after a pipe */
-static char	*ft_add_space(char *line)
+static char	*ft_add_space(t_struct *s, char *line)
 {
 	char	*str;
 	int		count;
 
-	count = ft_count_pipe(line);
-	count += ft_count_redirect(line);
+	count = ft_count_pipe(s, line);
+	count += ft_count_redirect(s, line);
 	str = malloc(sizeof(char) * (count + ft_strlen(line) + 1));
 	if (!str)
 		return (NULL);
-	str = ft_space_add(line, str, 0 , 0);
+	str = ft_space_add(s, line, str, 0 , 0);
 	free(line);
 	return (str);
 }
@@ -115,7 +98,9 @@ void	ft_lexer(t_struct *s, char *line)
 	int		i;
 
 	i = -1;
-	line = ft_add_space(line);
+	//s->f_dquote = 0;
+	//s->f_quote = 0;
+	line = ft_add_space(s, line);
 	temp = ft_minisplit(line, ' ');
 	// while (temp[++i])
 	// 	printf("temp de [%d] = [%s]\n", i, temp[i]);

@@ -12,6 +12,7 @@ static void	ft_node_add_back_token(t_struct *s)
 		return ;
 	last->next = NULL;
 	last->str = NULL;
+	last->prev = NULL;
 	last->type = cmd;
 	if (!s->token)
 		s->token = last;
@@ -20,6 +21,7 @@ static void	ft_node_add_back_token(t_struct *s)
 		temp = s->token;
 		while (temp->next)
 			temp = temp->next;
+		last->prev = temp;
 		temp->next = last;
 	}
 }

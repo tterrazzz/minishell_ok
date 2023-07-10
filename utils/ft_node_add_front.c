@@ -12,27 +12,30 @@
 
 #include "../srcs/minishell.h"
 
-/*  ft_node_create creates a node and splits the command and the options
-	to fill the char **name_options and returns an initiated node */
-static t_list	*ft_node_create(char *argv_cmd)
+void	ft_node_add_back_redirec(t_parsed *parsed, t_Tokentype type)
 {
-	(void) argv_cmd;
-	/*t_list	*cmd;
+	t_redirec	*last;
 
-	if (!argv_cmd)
-		return (NULL);
-	cmd = (t_list *)malloc(sizeof(t_list));
-	if (!cmd)
-		return (NULL);
-	cmd->name_options = ft_split(argv_cmd, ' ');
-	if (!(cmd->name_options))
-		return (NULL);
-	cmd->pipe_fd = NULL;
-	cmd->path = NULL;
-	cmd->next = NULL;
-	cmd->prev = NULL;
-	return (cmd);*/
-	return (NULL);
+	if (!parsed)
+		return ;
+	last = malloc(sizeof(t_redirec));
+	if (!last)
+		return ;
+	last->next = NULL;
+	last->prev = NULL;
+	last->filename = NULL;
+	last->here_d_pipe_fd = NULL;
+	last->pid = 0;
+	last->fd = 0;
+	last->type = type;
+	if (!(parsed->redirection))
+		parsed->redirection = last;
+	if (parsed->last_redire)
+	{
+		last->prev = parsed->last_redire;
+		parsed->last_redire->next = last;
+	}
+	parsed->last_redire = last;
 }
 
 void	ft_node_add_back_envp(t_struct *s)
@@ -58,26 +61,24 @@ void	ft_node_add_back_envp(t_struct *s)
 	}
 }
 
-/*  ft_node_add_front creates a node calling ft_node_create and adds it
-	at the front of the list */
-void	ft_node_add_front(t_struct *s, char *cmd_name)
+void	ft_node_remove_token(t_struct *s, t_token *node)
 {
-	(void) s;
-	(void) cmd_name;
-	ft_node_create("ggg");
-	/*t_list	*temp;
+	t_token	*temp;
+	t_token	*next_node;
 
-	if (!s || !cmd_name)
+	if (!s || !node)
 		return ;
-	temp = ft_node_create(cmd_name);
+	temp = node->prev;
+	next_node = node->next;
 	if (!temp)
-		return ;
-	if (!s->cmd)
-		s->last_cmd = temp;
-	if (s->cmd)
-	{
-		temp->next = s->cmd;
-		s->cmd->prev = temp;
-	}
-	s->cmd = temp;*/
+		s->token = next_node;
+	else if (temp)
+		temp->next = next_node;
+	if (next_node)
+		next_node->prev = temp;
+	// ft_free_tab((void **) node->value);
+	// ft_free_ptr((void *) node);
+	free(node->str);
+	free(node);
 }
+

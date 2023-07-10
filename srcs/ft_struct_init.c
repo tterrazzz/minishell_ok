@@ -28,4 +28,6 @@ void	ft_struct_init(t_struct *s)
 		return ;
 	s->token = NULL;
 	s->parsed = NULL;
+	s->f_dquote = 0;
+	s->f_quote = 0;
 }

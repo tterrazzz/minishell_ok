@@ -7,6 +7,7 @@ NAME = minishell
 
 UTL_DIR =	utils
 UTL_FILES =	\
+			flag_quote.c \
 			ft_node_add_front.c \
 			minisplit.c \
 			strcpy.c \

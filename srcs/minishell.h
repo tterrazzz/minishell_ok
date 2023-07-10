@@ -41,6 +41,7 @@ typedef struct s_token
 	char			*str;
 	t_Tokentype		type;
 	struct s_token	*next;
+	struct s_token	*prev;
 }	t_token;
 
 typedef struct s_redirec
@@ -58,7 +59,7 @@ typedef struct s_parsed
 {
 	char			**command;
 	char			*path;
-	pid_t			pid;
+//	pid_t			pid;
 	t_redirec		*redirection;
 	t_redirec		*last_redire;
 //	int				*pipe_fd;
@@ -80,6 +81,8 @@ typedef struct s_struct
 	int			nb_cmd;
 	int			nb_pipe;
 	int			error;
+	int			f_quote;
+	int			f_dquote;
 }	t_struct;
 
 /*  Errors */
@@ -115,11 +118,17 @@ void	ft_struct_envp(t_struct *s, char **envp);
 /*  Utils */
 
 void	ft_node_add_front(t_struct *s, char *cmd_name);
+void	ft_node_add_back_redirec(t_parsed *parsed, t_Tokentype type);
 void	ft_node_add_back_envp(t_struct *s);
+void	ft_node_remove_token(t_struct *s, t_token *node);
 char	**ft_minisplit(char *line, char c);
 void	ft_struct_token(t_struct *s, char **temp);
 char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strncpy(char *dest, const char *src, size_t n);
 int		ft_strcmp(const char *s1, const char *s2);
+void	ft_flag_quote(t_struct *s, char c);
+void	ft_write_doubleredirec(char **str, int *i, int *y, int x);
+void	ft_write_redirec(char **str, int *y, int x);
+void	ft_write_space(char **str, int *y);
 
 #endif
