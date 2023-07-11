@@ -18,45 +18,48 @@ void	ft_flag_quote(t_struct *s, char c)
 	}
 }
 
-void	ft_write_doubleredirec(char **str, int *i, int *y, int x)
+char	*ft_write_doubleredirec(char *str, int *i, int *y, int x)
 {
 	if (x == 1)
 	{
-		*str[*y] = ' ';
-		*str[++(*y)] = '<';
-		*str[++(*y)] = '<';
-		*str[++(*y)] = ' ';
+		str[*y] = ' ';
+		str[++(*y)] = '<';
+		str[++(*y)] = '<';
+		str[++(*y)] = ' ';
 		(*i)++;
 	}
 	if (x == 2)
 	{
-		*str[*y] = ' ';
-		*str[++(*y)] = '>';
-		*str[++(*y)] = '>';
-		*str[++(*y)] = ' ';
+		str[*y] = ' ';
+		str[++(*y)] = '>';
+		str[++(*y)] = '>';
+		str[++(*y)] = ' ';
 		(*i)++;
 	}
+	return (str);
 }
 
-void	ft_write_redirec(char **str, int *y, int x)
+char	*ft_write_redirec(char *str, int *y, int x)
 {
 	if (x == 1)
 	{
-		*str[*y] = ' ';
-		*str[++(*y)] = '<';
-		*str[++(*y)] = ' ';
+		str[*y] = ' ';
+		str[++(*y)] = '<';
+		str[++(*y)] = ' ';
 	}
 	if (x == 2)
 	{
-		*str[*y] = ' ';
-		*str[++(*y)] = '>';
-		*str[++(*y)] = ' ';
+		str[*y] = ' ';
+		str[++(*y)] = '>';
+		str[++(*y)] = ' ';
 	}
+	return (str);
 }
 
-void	ft_write_space(char **str, int *y)
+char	*ft_write_space(char *str, int *y)
 {
-	*str[*y] = ' ';
-	*str[++(*y)] = '|';
-	*str[++(*y)] = ' ';
+	str[*y] = ' ';
+	str[++(*y)] = '|';
+	str[++(*y)] = ' ';
+	return (str);
 }

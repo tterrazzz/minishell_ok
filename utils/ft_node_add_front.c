@@ -70,6 +70,8 @@ void	ft_node_remove_token(t_struct *s, t_token *node)
 		return ;
 	temp = node->prev;
 	next_node = node->next;
+	// if (!temp && !next_node)
+	// 	s->token = NULL;
 	if (!temp)
 		s->token = next_node;
 	else if (temp)
@@ -80,5 +82,6 @@ void	ft_node_remove_token(t_struct *s, t_token *node)
 	// ft_free_ptr((void *) node);
 	free(node->str);
 	free(node);
+	node = NULL;
 }
 

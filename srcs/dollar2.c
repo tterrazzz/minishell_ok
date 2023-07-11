@@ -20,10 +20,11 @@ static char	*ft_dollar_change(char *str, int start, int end, char *new_str)
 	str_len = ft_strlen(str);
 	new_str_len = ft_strlen(new_str);
 	result = ft_strnew(str_len - (end - start) + new_str_len);
-	if (start < 0 || end < 0 || start >= str_len
-		|| end >= str_len)
+	if (start < 0 || end < 0 || start >= str_len || end >= str_len)
+	{
 		printf("erreur de jugement \n");
-		//return (NULL);
+		return (NULL);
+	}
 	ft_strncpy(result, str, start);
 	ft_strcpy(result + start, new_str);
 	ft_strcpy(result + start + new_str_len, str + end + start + 1);
@@ -69,30 +70,27 @@ static int	ft_is_flagged(char c, int flag)
 	return (flag);
 }
 
-char	**ft_dollar_check(t_struct *s, char **tab, int j)
+char	*ft_dollar_check2(t_struct *s, char *line)
 {
 	int		i;
 	int		flag;
 
 	flag = 0;
-	while (tab[++j])
+	i = 0;
+	while (line[i])
 	{
-		i = 0;
-		while (tab[j][i])
+		flag = ft_is_flagged(line[i], flag);
+		if (line[i] == '\'' && flag == 0)
 		{
-			flag = ft_is_flagged(tab[j][i], flag);
-			if (tab[j][i] == '\'' && flag == 0)
-			{
+			i++;
+			while (line[i] != '\'')
 				i++;
-				while (tab[j][i] != '\'')
-					i++;
-				i++;
-			}
-			else if (tab[j][i] == '$')
-				tab[j] = ft_dollar_replace(s, tab[j], i);
-			else
-				i++;
+			i++;
 		}
+		else if (line[i] == '$')
+			line = ft_dollar_replace(s, line, i);
+		else
+			i++;
 	}
-	return (tab);
+	return (line);
 }

@@ -89,6 +89,7 @@ typedef struct s_struct
 
 void	ft_parsing_error(int error);
 void	ft_error(int error, char *line);
+int		print_error(int error_code, char *content);
 
 /*  Freeing */
 
@@ -96,15 +97,22 @@ void	ft_free_loop(t_struct *s);
 void	ft_free_everything(t_struct *s);
 //void	ft_free_ptr(void *ptr);
 
+/*	Syntax	*/
+
+void	ft_check_quotes(char *str);
+
 /*  Lexer */
 
 void	ft_lexer(t_struct *s, char *line);
 char	**ft_dollar_check(t_struct *s, char **tab, int j);
+char	*ft_dollar_check2(t_struct *s, char *line);
 char	**ft_quote_check(char **tab, int j, int i, int start);
+char	*ft_quote_check2(char *line, int i, int start);
 
 /* Parsing */
 
 void	ft_parsing(t_struct *s);
+void	ft_norminette(t_struct *s, t_token *ttt);
 
 /* Expander */
 
@@ -127,8 +135,8 @@ char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strncpy(char *dest, const char *src, size_t n);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_flag_quote(t_struct *s, char c);
-void	ft_write_doubleredirec(char **str, int *i, int *y, int x);
-void	ft_write_redirec(char **str, int *y, int x);
-void	ft_write_space(char **str, int *y);
+char	*ft_write_doubleredirec(char *str, int *i, int *y, int x);
+char	*ft_write_redirec(char *str, int *y, int x);
+char	*ft_write_space(char *str, int *y);
 
 #endif

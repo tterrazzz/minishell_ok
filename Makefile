@@ -16,7 +16,9 @@ UTL =	$(addprefix $(UTL_DIR)/, $(UTL_FILES))
 
 SRC_DIR =	./srcs
 SRC_FILES =	\
+			check_quotes.c \
 			dollar.c \
+			dollar2.c \
 			expander.c \
 			free_loop.c \
 			ft_error.c \
@@ -24,8 +26,10 @@ SRC_FILES =	\
 			ft_struct_init.c \
 			lexer.c \
 			main.c \
+			norminette.c \
 			parsing.c \
 			quote.c \
+			quote2.c \
 
 SRC =	$(UTL) $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 

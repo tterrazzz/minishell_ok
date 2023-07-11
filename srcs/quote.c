@@ -5,20 +5,16 @@ static char	*ft_quote_replace(char *line, int start, int *i)
 	char	*result;
 	int		k;
 
-	//printf("i = %d\n", *i);
-	//printf("line dans quote replace : %s\n", line);
 	result = malloc(sizeof(char) * (ft_strlen(line) -1));
 	k = 0;
 	while (k != start)
 	{
 		result[k] = line[k];
-		//printf("result[%d] = %c line[%d] = %c\n", k, result[k], k, line[k]);
 		k++;
 	}
 	while (k + 1 != *i)
 	{
 		result[k] = line[k + 1];
-		//printf("result[%d] = %c line[%d] = %c\n", k, result[k], k + 1, line[k + 1]);
 		k++;
 	}
 	while (line[k + 2])
@@ -28,9 +24,7 @@ static char	*ft_quote_replace(char *line, int start, int *i)
 	}
 	*i = *i - 2;
 	result[k] = '\0';
-	//printf("quote_replace, result = %s\n", result);
 	free(line);
-	//system("leaks minishell");
 	return (result);
 }
 

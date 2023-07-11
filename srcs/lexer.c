@@ -54,20 +54,20 @@ static char	*ft_space_add(t_struct *s, char *line, char *str, int i, int y)
 		ft_flag_quote(s, line[i]);
 		str[y] = line [i];
 		if (line[i] == '|' && s->f_dquote == 0 && s->f_quote == 0)
-			ft_write_space(&str, &y);
+			str = ft_write_space(str, &y);
 		if (line[i] == '<' && s->f_dquote == 0 && s->f_quote == 0)
 		{
-			if (line[i + 1] == '<')
-				ft_write_doubleredirec(&str, &i, &y, 1);
+			if (line[i + 1] && line[i + 1] == '<')
+				str = ft_write_doubleredirec(str, &i, &y, 1);
 			else
-				ft_write_redirec(&str, &i, 1);
+				str = ft_write_redirec(str, &y, 1);
 		}
 		else if (line[i] == '>' && s->f_dquote == 0 && s->f_quote == 0)
 		{
-			if (line[i + 1] == '>')
-				ft_write_doubleredirec(&str, &i, &y, 2);
+			if (line[i + 1] && line[i + 1] == '>')
+				str = ft_write_doubleredirec(str, &i, &y, 2);
 			else
-				ft_write_redirec(&str, &i, 2);
+				str = ft_write_redirec(str, &y, 2);
 		}
 		i++;
 		y++;
@@ -87,7 +87,7 @@ static char	*ft_add_space(t_struct *s, char *line)
 	str = malloc(sizeof(char) * (count + ft_strlen(line) + 1));
 	if (!str)
 		return (NULL);
-	str = ft_space_add(s, line, str, 0 , 0);
+	str = ft_space_add(s, line, str, 0, 0);
 	free(line);
 	return (str);
 }
@@ -96,29 +96,22 @@ void	ft_lexer(t_struct *s, char *line)
 {
 	char	**temp;
 	int		i;
+	t_token	*test;
 
 	i = -1;
-	//s->f_dquote = 0;
-	//s->f_quote = 0;
 	line = ft_add_space(s, line);
 	temp = ft_minisplit(line, ' ');
 	// while (temp[++i])
 	// 	printf("temp de [%d] = [%s]\n", i, temp[i]);
 	// i = -1;
-	//temp = ft_dollar_check(s, temp, -1);
-	// while (temp[++i])
-	// 	printf("temp de [%d] = [%s]\n", i, temp[i]);
-	//temp = ft_quote_check(temp, -1, 0, 0);
 	ft_struct_token(s, temp);
-	// if (!s->token)
-	// 	printf("s->token = NULL\n");
-	// while (s->token != NULL)
-	// {
-	// 	printf(" le token est : %s\n", s->token->str);
-	// 	printf("le token est de type : %d\n", s->token->type);
-	// 	s->token = s->token->next;
-	// }
-	// i = -1;
+	test = s->token;
+	while (test != NULL)
+	{
+		printf(" le token est : %s\n", test->str);
+		printf("le token est de type : %d\n", test->type);
+		test = test->next;
+	}
 	while (temp[++i])
 		free(temp[i]);
 	free(temp);

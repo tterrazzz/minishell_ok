@@ -24,7 +24,11 @@ static void	print_parsed_list(t_parsed *parsed_list)
 		{
 			printf("No commands in this node.\n");
 		}
-		printf("\n");
+		while (current->redirection != NULL)
+		{
+			printf("filename :%s\ntype :%d\n", current->redirection->filename, current->redirection->type);
+			current->redirection = current->redirection->next;
+		}
 		current = current->next;
 		node_count++;
 	}
@@ -75,87 +79,15 @@ void	ft_node_add_back_parsed(t_struct *s)
 	}
 }
 
-// static void	ft_fill_temp(t_struct *s, t_token **current_token, int i)
-// {
-// 	char		**temp;
-// 	t_token		*prov;
-
-// 	printf("Fill temp\n");
-// 	prov = *current_token;
-// 	while (prov != NULL && prov->type != pipex)
-// 	{
-// 		if (prov->type == redirection)
-// 			ft_choper prochain token
-// 		else
-// 			i++;
-// 		prov = prov->next;
-// 	}
-// 	temp = malloc(sizeof(char *) * (i + 1));
-// 	i = 0;
-// 	while ((*current_token) != NULL && (*current_token)->type != pipex)
-// 	{
-// 		temp[i] = ft_strdup((*current_token)->str);
-// 		i++;
-// 		*current_token = (*current_token)->next;
-// 	}
-// 	temp[i] = NULL;
-// 	ft_node_add_back_parsed(s, temp);
-// 	i = 0;
-// 	while (temp[i])
-// 		free(temp[i++]);
-// 	free(temp);
-// }
-
-// void	ft_parsing(t_struct *s)
-// {
-// 	t_token		*current_token;
-// 	t_parsed	*current_parsed;
-// 	int			i;
-
-// 	printf("parsing\n");
-// 	i = 0;
-// 	current_token = s->token;
-// 	current_parsed = s->parsed;
-// 	while (current_token != NULL)
-// 	{
-// 		printf("current token = %s\n", current_token->str);
-// 		ft_fill_temp(s, &current_token, 0);
-// 		if (current_token != NULL)
-// 			current_token = current_token->next;
-// 	}
-// 	// while (s->parsed->command[i])
-// 	// 	free(s->parsed->command[i++]);
-// 	// free(s->parsed->command);
-// 	// free(s->parsed);
-// 	// free(s->token->str);
-// 	// free(s->token);
-// 	//system("leaks minishell");
-// 	ft_node_add_back_parsed(s, NULL);
-// 	current_parsed = s->parsed;
-// 	while (current_token)
-// 	{
-// 		if (current_token->type == '|')
-// 		{
-// 			ft_node_add_back_parsed(s, NULL);
-// 			current_token->type = current_token->next;
-// 			current_parsed = current_parsed->next;
-// 		}
-// 		ft_fill_parsed(current_parsed, &current_token);
-// 		current_token = current_token->next;
-// 	}
-
-// 	print_parsed_list(s->parsed);
-// }
-
 static void	ft_fill_parsed(t_struct *s, t_parsed *current_parsed,
 	t_token **current_token, int i)
 {
 	t_token		*prov;
 	t_token		*useless;
+	t_token		*begin;
 
-	(void)s;
 	prov = *current_token;
-	printf("FILL\n");
+	begin = NULL;
 	while (prov != NULL && prov->type != pipex)
 	{
 		if (prov->type == 2 || prov->type == 3 || prov->type == 4
@@ -163,27 +95,36 @@ static void	ft_fill_parsed(t_struct *s, t_parsed *current_parsed,
 		{
 			ft_node_add_back_redirec(current_parsed, prov->type);
 			useless = prov->next;
+			current_parsed->last_redire->filename = ft_strdup(useless->str);
+			current_parsed->last_redire->filename
+				= ft_dollar_check2(s, current_parsed->last_redire->filename);
+			current_parsed->last_redire->filename
+				= ft_quote_check2(current_parsed->last_redire->filename, 0, 0);
 			ft_node_remove_token(s, prov);
 			prov = useless;
-			current_parsed->redirection->filename = prov->str;
 			useless = prov->next;
 			ft_node_remove_token(s, prov);
 			prov = useless;
 		}
 		else
 		{
+			if (!begin)
+				begin = prov;
 			i++;
 			prov = prov->next;
 		}
 	}
 	current_parsed->command = malloc(sizeof(char *) * (i + 1));
 	i = 0;
-	while ((*current_token) != NULL && (*current_token)->type != pipex)
+	*current_token = begin;
+	if (*current_token != NULL)
 	{
-		current_parsed->command[i] = ft_strdup((*current_token)->str);
-		printf("command de [%d] = %s\n", i, current_parsed->command[i]);
-		i++;
-		*current_token = (*current_token)->next;
+		while ((*current_token) != NULL && (*current_token)->type != pipex)
+		{
+			current_parsed->command[i] = ft_strdup((*current_token)->str);
+			i++;
+			*current_token = (*current_token)->next;
+		}
 	}
 	current_parsed->command[i] = NULL;
 }
@@ -194,13 +135,13 @@ void	ft_parsing(t_struct *s)
 	t_parsed	*current_parsed;
 
 	current_token = s->token;
+	ft_norminette(s, current_token);
 	ft_node_add_back_parsed(s);
 	current_parsed = s->parsed;
 	while (current_token != NULL)
 	{
 		if (current_token->type == 1)
 		{
-			printf("PIPEX\n");
 			ft_node_add_back_parsed(s);
 			current_token = current_token->next;
 			current_parsed = current_parsed->next;
@@ -213,19 +154,3 @@ void	ft_parsing(t_struct *s)
 	}
 	print_parsed_list(s->parsed);
 }
-
-// static void	ft_fill_parsed(t_parsed *current_parsed, t_token **current_token)
-// {
-// 	if (!current_parsed || !current_token)
-// 		return ;
-// 	if ((*current_token)->type == 2 || (*current_token)->type == 3
-// 		|| (*current_token)->type == 4 || (*current_token)->type == 5)
-// 	{
-// 		ft_node_add_back_redirec(current_parsed, (*current_token)->type);
-// 	}
-// 	else
-// 	{
-
-// 	}
-// }
-
