@@ -22,7 +22,7 @@ static int	set_in_quotes(char c, int *in_quotes)
 	return (cquotes);
 }
 
-void	ft_check_quotes(char *str)
+int	ft_check_quotes(t_struct *s, char *str)
 {
 	int	cur;
 	int	in_quotes;
@@ -35,6 +35,9 @@ void	ft_check_quotes(char *str)
 		cur++;
 	}
 	if (in_quotes != 0)
-		print_error(1, NULL);
-	return ;
+	{
+		print_error(s, 1, NULL);
+		return (1);
+	}
+	return (0);
 }

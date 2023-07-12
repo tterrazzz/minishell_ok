@@ -15,6 +15,8 @@
 
 # include <fcntl.h>
 
+int g_error;
+
 typedef enum e_token_type
 {
 	cmd,
@@ -87,9 +89,7 @@ typedef struct s_struct
 
 /*  Errors */
 
-void	ft_parsing_error(int error);
-void	ft_error(int error, char *line);
-int		print_error(int error_code, char *content);
+int		print_error(t_struct *s, int error_code, char *content);
 
 /*  Freeing */
 
@@ -99,7 +99,8 @@ void	ft_free_everything(t_struct *s);
 
 /*	Syntax	*/
 
-void	ft_check_quotes(char *str);
+void	ft_error(int error, char *line);
+int		ft_check_quotes(t_struct *s, char *str);
 
 /*  Lexer */
 
@@ -112,7 +113,7 @@ char	*ft_quote_check2(char *line, int i, int start);
 /* Parsing */
 
 void	ft_parsing(t_struct *s);
-void	ft_norminette(t_struct *s, t_token *ttt);
+int		ft_norminette(t_struct *s);
 
 /* Expander */
 

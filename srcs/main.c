@@ -1,23 +1,27 @@
 
 #include "minishell.h"
 
-int	print_error(int error_code, char *content)
+int	g_error = 0;
+
+int	print_error(t_struct *s, int error_code, char *content)
 {
 	if (error_code == 1)
 	{
 		ft_printf("\033[91m%s\033[0m\n",
-			"minishell: parse error, quotes are never closed");
+			"minishell: parse error quotes are never closed");
+		s->error = 1;
 	}
 	else if (error_code == 2)
 	{
 		ft_printf("\033[91m%s '%s'\033[0m\n",
-			"minishell: parse error, near", content);
+			"minishell: syntax error near unexpected token", content);
+		s->error = 258;
 	}
 	else if (error_code == 3)
 	{
-		ft_printf("\033[91m%s '%s'\033[0m\n",
-			"minishell: the command cannot end with",
-			content);
+		ft_printf("\033[91m%s\033[0m\n",
+			"minishell: syntax error");
+		s->error = 1;
 	}
 	return (1);
 }
@@ -41,9 +45,11 @@ int	main(int argc, char **argv, char **envp)
 			exit(0);
 		}
 		add_history(line);
-		ft_check_quotes(line);
-			break ;
+		if (ft_check_quotes(&s, line))
+			continue ;
 		ft_lexer(&s, line);
+		if (ft_norminette(&s))
+			continue ;
 		ft_parsing(&s);
 		//system("leaks minishell");
 		//ft_free_loop(&s);

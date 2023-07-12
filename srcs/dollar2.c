@@ -65,7 +65,7 @@ static int	ft_is_flagged(char c, int flag)
 {
 	if (c == '\"' && flag == 1)
 		flag = 0;
-	if (c == '\"' && flag == 0)
+	else if (c == '\"' && flag == 0)
 		flag = 1;
 	return (flag);
 }

@@ -1,16 +1,64 @@
 #include "minishell.h"
 
-void	ft_norminette(t_struct *s, t_token *ttt)
+static int	ft_check_next_token_space(t_struct *s, t_token *tok)
+{
+	t_token		*current_token;
+
+	current_token = tok;
+	current_token = current_token->next;
+	if (!current_token)
+	{
+		print_error(s, 2, "newline");
+		return (1);
+	}
+	return (0);
+}
+
+static int	ft_check_next_token(t_struct *s, t_token *tok)
+{
+	t_token		*current_token;
+
+	current_token = tok;
+	current_token = current_token->next;
+	if (!current_token)
+	{
+		print_error(s, 2, "newline");
+		return (1);
+	}
+	if (current_token->type == 2 || current_token->type == 3
+		|| current_token->type == 4 || current_token->type == 5
+		|| current_token->type == 1)
+	{
+		print_error(s, 2, current_token->str);
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_norminette(t_struct *s)
 {
 	t_token		*current_token;
 	int			i;
+	int			error;
 
-	(void)s;
-	current_token = ttt;
+	printf("normiette\n");
+	current_token = s->token;
 	i = 0;
-	// if (current_token->type == 0)
-	// 	ft_token_cmd(s)
-	// if (current_token->type == 1)
-	// if (current_token->type == 2)
-	
+	error = 0;
+	while (current_token != NULL)
+	{
+		printf("current_token = %s\n", current_token->str);
+		if (current_token->type == 1 && i == 0)
+			error = print_error(s, 2, "|");
+		if (current_token->type == 1)
+			error = ft_check_next_token_space(s, current_token);
+		if (current_token->type == 2 || current_token->type == 3
+			|| current_token->type == 4 || current_token->type == 5)
+			error = ft_check_next_token(s, current_token);
+		if (error != 0)
+			return (error);
+		current_token = current_token->next;
+		i++;
+	}
+	return (error);
 }

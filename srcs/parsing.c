@@ -135,7 +135,6 @@ void	ft_parsing(t_struct *s)
 	t_parsed	*current_parsed;
 
 	current_token = s->token;
-	ft_norminette(s, current_token);
 	ft_node_add_back_parsed(s);
 	current_parsed = s->parsed;
 	while (current_token != NULL)

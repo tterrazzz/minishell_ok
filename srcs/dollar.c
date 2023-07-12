@@ -42,6 +42,8 @@ static char	*ft_dollar_replace(t_struct *s, char *line, int i)
 	k = 0;
 	start = i;
 	i++;
+	if (ft_check_v_env(line, i))
+		return (line);
 	while (line[i] && ft_isalnum(line[i]))
 		i++;
 	env_name = malloc(sizeof(char) * (i - start + 1));
@@ -64,7 +66,7 @@ static int	ft_is_flagged(char c, int flag)
 {
 	if (c == '\"' && flag == 1)
 		flag = 0;
-	if (c == '\"' && flag == 0)
+	else if (c == '\"' && flag == 0)
 		flag = 1;
 	return (flag);
 }
@@ -80,16 +82,26 @@ char	**ft_dollar_check(t_struct *s, char **tab, int j)
 		i = 0;
 		while (tab[j][i])
 		{
+			printf("C = %c\n\n", tab[j][i]);
 			flag = ft_is_flagged(tab[j][i], flag);
 			if (tab[j][i] == '\'' && flag == 0)
 			{
+				printf("ENTTT\n");
 				i++;
 				while (tab[j][i] != '\'')
 					i++;
 				i++;
 			}
 			else if (tab[j][i] == '$')
+			{
+				if (!tab[j][i + 1] || tab[j][i + 1] == ' '
+					|| tab[j][i + 1] == '\"')
+				{
+					i++;
+					continue ;
+				}
 				tab[j] = ft_dollar_replace(s, tab[j], i);
+			}
 			else
 				i++;
 		}

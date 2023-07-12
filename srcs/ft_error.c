@@ -1,15 +1,6 @@
 #include "minishell.h"
 
-void	ft_parsing_error(int error)
-{
-	if (error == SYNTAX)
-	{
-		printf("Syntax error");
-		exit (258);
-	}
-}
-
-void    ft_error(int error, char *line)
+void	ft_error(int error, char *line)
 {
 	if (!line)
 		return ;
