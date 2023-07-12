@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llaurenc <llaurenc@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:24:58 by avan              #+#    #+#             */
-/*   Updated: 2023/06/27 15:11:05 by llaurenc         ###   ########.fr       */
+/*   Updated: 2023/07/12 19:34:23 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	if (!s || !f)
 		return (ft_strdup(""));
 	i = 0;
-	str = ft_strdup((char *)s);
+	str = ft_strdup((char *) s);
 	if (str == NULL)
 		return (NULL);
 	while (str[i])

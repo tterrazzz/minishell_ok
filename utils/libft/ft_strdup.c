@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llaurenc <llaurenc@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:52:49 by marvin            #+#    #+#             */
-/*   Updated: 2023/06/27 15:20:29 by llaurenc         ###   ########.fr       */
+/*   Updated: 2023/07/12 19:50:15 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 /*	ft_strdup gets a string of char and returns a malloc copy of it */
 /* char	*ft_strdup(const char *s1)

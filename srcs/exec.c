@@ -1,55 +1,122 @@
 #include "minishell.h"
 
-/*static void ft_get_commands(t_struct *s)
+static void	ft_child_process_stdin(t_struct *s, t_parsed *parsed)
+{
+	if (!s || !parsed)
+		return ;
+	if (s->pipe_fd)
+		close(s->pipe_fd[0]);
+	if (parsed->fd_in)
+	{
+		if (dup2(parsed->fd_in, STDIN_FILENO) == -1)
+			perror("dup2 fd_in");
+		close(parsed->fd_in);
+	}
+	else if (!(parsed->fd_in) && parsed->prev)
+	{
+		if (dup2(s->previous_fd, STDIN_FILENO) == -1)
+			perror("dup2 previous_fd");
+	}
+	else
+		dup2(s->fd_in_saved, STDIN_FILENO);
+	close(s->previous_fd);
+}
+
+static void	ft_child_process(t_struct *s, t_parsed *parsed)
+{
+	if (!s || !parsed)
+		return ;
+	parsed->error = ft_open_files_inside_pipe(s, parsed);
+	if (parsed->error)
+		exit(1);
+	ft_child_process_stdin(s, parsed);
+	if (parsed->fd_out)
+	{
+		if (dup2(parsed->fd_out, STDOUT_FILENO) == -1)
+			perror("dup2");
+		close(parsed->fd_out);
+	}
+	else if (parsed->next)
+	{
+		if (dup2(s->pipe_fd[1], STDOUT_FILENO) == -1)
+			perror("dup2");
+		close(s->pipe_fd[1]);
+	}
+	else
+		dup2(s->fd_out_saved, STDOUT_FILENO);
+	if (!(parsed->command))
+		exit(0);
+	ft_execution(s, parsed);
+	exit(1);
+}
+
+static void	ft_parent_process(t_struct *s, t_parsed *parsed)
+{
+	if (!s || !parsed)
+		return ;
+	if (parsed->fd_in)
+		close(parsed->fd_in);
+	if (parsed->fd_out)
+		close(parsed->fd_out);
+	close(s->pipe_fd[1]);
+	close(s->previous_fd);
+	if (parsed->next)
+		dup2(s->pipe_fd[0], s->previous_fd);
+	close(s->pipe_fd[0]);
+	if (parsed->here_d_pipe_fd)
+	{
+		close(parsed->here_d_pipe_fd[0]);
+		//ft_free_ptr((void *)parsed->here_d_pipe_fd);
+	}
+	if (!(parsed->next))
+		ft_wait_all_processes(s);
+}
+
+static void	ft_pipe_and_fork(t_struct *s, t_parsed *parsed)
 {
 	if (!s)
 		return ;
-
-}*/
-
-static void ft_child_process(t_struct *s)
-{
-	if (!s)
-		return;
-	/* multiple here_doc possibles */						// A CODER
-	if (s->parsed->next && s->parsed->next->pipe_fd)
-		dup2(s->parsed->next->pipe_fd[0], STDIN_FILENO);
-	else if (s->parsed->redirection_in)						// if fds
-		dup2()
-}
-
-static void ft_pipe_and_fork(t_struct *s)
-{
-	if (!s || s->i_cmd >= s->nb_cmd)
-		return;
-	if (s->i_cmd < s->nb_cmd)
+	if (parsed->next)
 	{
-		s->parsed->pipe_fd = malloc(sizeof(int) * 2);
-		if (!(s->parsed->pipe_fd))
-			return (ft_error(s, MALLOC, "malloc"));
-		if (pipe(s->parsed->pipe_fd) < 0)
+		if (pipe(s->pipe_fd) < 0)
 			return (ft_error(s, PIPE, "pipe"));
 	}
-	s->parsed->pid = fork();
-	if (s->parsed->pid < 0)
-		return (ft_error(s, FORK, "fork"));
-	if (s->parsed->pid == 0)
-		ft_child_process(s);
-	if (s->i_cmd > 0 && s->parsed->next)
-		close(s->parsed->pipe_fd[0]);
-	close(s->parsed->pipe_fd[1]);
-	s->i_cmd += 1;
-	if (s->i_cmd == s->nb_cmd)
-		ft_wait_all_processes(s);
-	/*  Gerer Here_doc << */
+	else
+		ft_get_last_cmd_code(s, parsed);
+	parsed->pid = fork();
+	signal(SIGINT, &ft_doing_nothing);
+	signal(SIGQUIT, &ft_doing_nothing_but_quit);
+	if (parsed->pid < 0)
+	{
+		perror("fork");
+		exit(1);
+	}
+	if (parsed->pid == 0)
+		ft_child_process(s, parsed);
+	ft_env_changing_builtin(s, parsed);
+	ft_parent_process(s, parsed);
 }
 
-void ft_exec(t_struct *s)
+void	ft_exec(t_struct *s)
 {
+	t_parsed	*parsed;
+
 	if (!s)
-		return;
-	//    ft_get_commands(s);
-	ft_open_files_get_fds(s);							// open all files and get fds
-	while (s->i_cmd < s->nb_cmd)
-		ft_pipe_and_fork(s);
+		return ;
+//	s->error = 0;
+	g_error = 0;
+	parsed = s->parsed;
+	if (parsed->redirection)
+		ft_open_double_redirect_in(s, parsed);
+	s->previous_fd = dup(STDIN_FILENO);
+	ft_change_underscore(s, parsed);
+	while (parsed)
+	{
+		ft_pipe_and_fork(s, parsed);
+		parsed = parsed->next;
+	}
+	ft_change_return_code(s);
+	dup2(s->fd_in_saved, STDIN_FILENO);
+	dup2(s->fd_out_saved, STDOUT_FILENO);
+	dup2(s->fd_err_saved, STDERR_FILENO);
 }

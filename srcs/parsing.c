@@ -34,51 +34,6 @@ static void	print_parsed_list(t_parsed *parsed_list)
 	}
 }
 
-static t_parsed	*ft_create_parsed_node(void)
-{
-	t_parsed	*parsed_node;
-	int			i;
-
-	parsed_node = malloc(sizeof(t_parsed));
-	if (!parsed_node)
-		return (NULL);
-	i = 0;
-	parsed_node->command = NULL;
-	parsed_node->path = NULL;
-	parsed_node->redirection = NULL;
-	parsed_node->last_redire = NULL;
-	// (*parsed_node)->pipe_fd = NULL;
-	parsed_node->here_d_pipe_fd = NULL;
-	parsed_node->fd_in = 0;
-	parsed_node->fd_out = 0;
-	parsed_node->error = 0;
-	parsed_node->next = NULL;
-	parsed_node->prev = NULL;
-	return (parsed_node);
-}
-
-/*	void ft_node_add_back_parsed creates a parsed node and adds it at
-	the back of the parsed linked list */
-void	ft_node_add_back_parsed(t_struct *s)
-{
-	t_parsed	*last;
-	t_parsed	*temp;
-
-	if (!s)
-		return ;
-	last = ft_create_parsed_node();
-	if (!(s->parsed))
-		s->parsed = last;
-	else
-	{
-		temp = s->parsed;
-		while (temp->next)
-			temp = temp->next;
-		last->prev = temp;
-		temp->next = last;
-	}
-}
-
 static void	ft_fill_parsed(t_struct *s, t_parsed *current_parsed,
 	t_token **current_token, int i)
 {
