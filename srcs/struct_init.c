@@ -72,6 +72,7 @@ void	ft_struct_init(t_struct *s, char **envp)
 		return ;
 	s->envp = NULL;
 	s->token = NULL;
+	s->token_syntax_error = NULL;
 	s->parsed = NULL;
 	ft_struct_envp(s, envp);
 	s->path_tab = ft_get_path_envp_tab(s->envp);

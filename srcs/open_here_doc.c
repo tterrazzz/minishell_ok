@@ -43,7 +43,7 @@ static void	ft_pipe_and_fork_hd(t_struct *s, t_parsed *parsed, t_redirec *redi)
 	if (pipe(redi->here_d_pipe_fd) < 0)
 		return (ft_error(s, PIPE, "pipe"));
 	redi->pid = fork();
-	signal(SIGQUIT, &ft_doing_nothing);
+	signal(SIGINT, &ft_doing_nothing);
 	signal(SIGQUIT, &ft_doing_nothing);
 	if (redi->pid < 0)
 		return (ft_error(s, FORK, "fork"));
@@ -51,6 +51,11 @@ static void	ft_pipe_and_fork_hd(t_struct *s, t_parsed *parsed, t_redirec *redi)
 		ft_child_process_hd(redi);
 	close(redi->here_d_pipe_fd[1]);
 	waitpid(redi->pid, &error, 0);
+	if (error != 0)
+	{
+		g_error = 1;
+		return ;
+	}
 	if (parsed->here_d_pipe_fd && parsed->here_d_pipe_fd[0])
 		close(parsed->here_d_pipe_fd[0]);
 	parsed->here_d_pipe_fd = redi->here_d_pipe_fd;

@@ -33,20 +33,6 @@ void	ft_check_old_pwd(t_struct *s, char *old_pwd)
 			ft_set_old_pwd_memory(s, temp, old_pwd);
 			return ;
 		}
-		/*{
-			if (temp->value[1])
-				free(temp->value[1]);
-			if (s->unset_pwd > 1)
-				temp->value[1] = ft_strdup(s->old_pwd_memory);
-			else
-			{
-				temp->value[1] = old_pwd;
-				temp->nb_words = 2;
-			}
-			if (!old_pwd && s->unset_pwd == 1)
-				s->unset_pwd += 1;
-			return ;
-		}*/
 		temp = temp->next;
 	}
 	value = malloc(sizeof(char *) * (2 + 1));
@@ -58,7 +44,7 @@ void	ft_check_old_pwd(t_struct *s, char *old_pwd)
 	ft_node_add_back_envp(s, value, 2);
 }
 
-void	ft_change_pwd(t_struct *s, char *new_pwd)
+static void	ft_change_old_pwd(t_struct *s, char *new_pwd)
 {
 	t_envp	*temp;
 	char	*old_pwd;
@@ -66,16 +52,6 @@ void	ft_change_pwd(t_struct *s, char *new_pwd)
 	if (!s)
 		return ;
 	temp = s->envp;
-	if (s->pwd_memory)
-	{
-		if (s->old_pwd_memory)
-		{
-			ft_free_ptr((void *)s->old_pwd_memory);
-			s->old_pwd_memory = NULL;
-		}
-		s->old_pwd_memory = s->pwd_memory;
-	}
-	s->pwd_memory = ft_strdup(new_pwd);
 	old_pwd = NULL;
 	while (temp)
 	{
@@ -95,4 +71,24 @@ void	ft_change_pwd(t_struct *s, char *new_pwd)
 		ft_check_old_pwd(s, old_pwd);
 		ft_reassign_updated_envp_char(s);
 	}
+}
+
+void	ft_change_pwd(t_struct *s, char *new_pwd)
+{
+	t_envp	*temp;
+
+	if (!s)
+		return ;
+	temp = s->envp;
+	if (s->pwd_memory)
+	{
+		if (s->old_pwd_memory)
+		{
+			ft_free_ptr((void *)s->old_pwd_memory);
+			s->old_pwd_memory = NULL;
+		}
+		s->old_pwd_memory = s->pwd_memory;
+	}
+	s->pwd_memory = ft_strdup(new_pwd);
+	ft_change_old_pwd(s, new_pwd);
 }

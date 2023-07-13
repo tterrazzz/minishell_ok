@@ -11,7 +11,6 @@ static int	ft_check_if_dir_slash(char *cmd, int mode)
 		return (0);
 	str = NULL;
 	stock = NULL;
-	printf("ici\n");
 	if (stat(cmd, &t) == 0)
 	{
 		if (S_ISDIR(t.st_mode))

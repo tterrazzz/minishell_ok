@@ -65,6 +65,26 @@ void	ft_node_remove_envp(t_struct *s, t_envp *node)
 	node = NULL;
 }
 
+void	ft_node_remove_token(t_struct *s, t_token *node)
+{
+	t_token	*temp;
+	t_token	*next_node;
+
+	if (!s || !node)
+		return ;
+	temp = node->prev;
+	next_node = node->next;
+	if (!temp)
+		s->token = next_node;
+	else if (temp)
+		temp->next = next_node;
+	if (next_node)
+		next_node->prev = temp;
+	free(node->str);
+	free(node);
+	node = NULL;
+}
+
 /*static void	ft_free_redirec_content(t_redirec *redirec)
 {
 	if (!redirec)

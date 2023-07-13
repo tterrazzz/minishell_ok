@@ -27,6 +27,8 @@ int	ft_check_quotes(t_struct *s, char *str)
 	int	cur;
 	int	in_quotes;
 
+	if (!s || !str)
+		return (1);
 	cur = 0;
 	in_quotes = 0;
 	while (str[cur])
@@ -37,7 +39,7 @@ int	ft_check_quotes(t_struct *s, char *str)
 	if (in_quotes != 0)
 	{
 		print_error(s, 1, NULL);
-		return (1);
+		return (free(str), 1);
 	}
 	return (0);
 }

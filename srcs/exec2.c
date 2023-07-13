@@ -38,7 +38,6 @@ void	ft_execution(t_struct *s, t_parsed *parsed)
 	if (!s || !parsed)
 		return ;
 	built_in_child = ft_find_built_in(s, parsed);
-	printf("built_in_child = %d\n", built_in_child);
 	if (built_in_child)
 	{
 		if (built_in_child == 2)

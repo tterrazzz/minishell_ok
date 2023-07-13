@@ -59,6 +59,7 @@ void	ft_heredoc_handler(int signal_num)
 		rl_replace_line("", STDIN_FILENO);
 		write(STDIN_FILENO, "\n", 1);
 		rl_on_new_line();
+		g_error = 1;
 		exit(1);
 	}
 	else if (signal_num == SIGQUIT)

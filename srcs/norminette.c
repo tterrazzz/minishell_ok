@@ -8,6 +8,7 @@ static int	ft_check_next_token_space(t_struct *s, t_token *tok)
 	current_token = current_token->next;
 	if (!current_token)
 	{
+		s->token_syntax_error = tok;
 		print_error(s, 2, "newline");
 		return (1);
 	}
@@ -22,6 +23,7 @@ static int	ft_check_next_token(t_struct *s, t_token *tok)
 	current_token = current_token->next;
 	if (!current_token)
 	{
+		s->token_syntax_error = tok;
 		print_error(s, 2, "newline");
 		return (1);
 	}
@@ -29,6 +31,7 @@ static int	ft_check_next_token(t_struct *s, t_token *tok)
 		|| current_token->type == 4 || current_token->type == 5
 		|| current_token->type == 1)
 	{
+		s->token_syntax_error = tok;
 		print_error(s, 2, current_token->str);
 		return (1);
 	}
@@ -56,7 +59,7 @@ int	ft_norminette(t_struct *s)
 			|| current_token->type == 4 || current_token->type == 5)
 			error = ft_check_next_token(s, current_token);
 		if (error != 0)
-			return (error);
+			return (ft_free_token(s), error);
 		current_token = current_token->next;
 		i++;
 	}

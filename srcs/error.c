@@ -12,6 +12,8 @@ static void	ft_functions_error(int error)
 		write(STDERR_FILENO, "fork failed\n", 12);
 	else if (error == MALLOC)
 		write(STDERR_FILENO, "malloc failed\n", 14);
+	else if (error == ARGC)
+		write(STDERR_FILENO, "No arguments accepted\n", 22);
 }
 
 /*	static void ft_exec_error writes the error message dedicated to
@@ -53,7 +55,8 @@ void	ft_error(t_struct *s, int error, char *name)
 	if (!name)
 		return ;
 	str = NULL;
-	if (error == SYNTAX || error == PIPE || error == FORK || error == MALLOC)
+	if (error == SYNTAX || error == PIPE || error == FORK || error == MALLOC
+		|| error == ARGC)
 		ft_functions_error(error);
 	else if (error == EXECVE || error == FIILE)
 		ft_exec_error(s, error, name, NULL);

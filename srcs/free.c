@@ -37,7 +37,7 @@ static void	ft_free_envp(t_struct *s)
 	}
 }
 
-static void	ft_free_token(t_struct *s)
+void	ft_free_token(t_struct *s)
 {
 	t_token	*temp;
 
@@ -49,7 +49,11 @@ static void	ft_free_token(t_struct *s)
 		ft_free_ptr((void *)temp->str);
 		ft_free_ptr((void *)temp->prev);
 		s->token = temp->next;
-		ft_free_ptr((void *)temp);
+		if (!temp->next)
+		{
+			ft_free_ptr((void *)temp);
+			return ;
+		}
 		temp = s->token;
 	}
 }
@@ -82,5 +86,4 @@ void	ft_free_everything(t_struct *s, int mode)
 	ft_free_tab((void **)s->path_tab);
 	ft_free_ptr((void *)s->old_pwd_memory);
 	ft_free_ptr((void *)s->pwd_memory);
-	ft_free_ptr((void *)s);
 }

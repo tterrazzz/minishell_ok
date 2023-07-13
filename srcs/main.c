@@ -28,47 +28,61 @@ int	print_error(t_struct *s, int error_code, char *content)
 	return (1);
 }
 
+/*	static int ft_read_line gets the signals and the prompt, then tokenize it
+	and parses it */
+static int	ft_read_line(t_struct *s)
+{
+	char	*line;
+
+	if (!s)
+		return (0);
+	ft_signal_init(s);
+	signal(SIGINT, &ft_signal_handler);
+	signal(SIGQUIT, &ft_signal_handler);
+//	ft_ctrl_remove(1);
+	line = readline("minishell$ ");
+//	ft_ctrl_remove(0);
+	add_history(line);
+	if (!line)
+	{
+		write(STDOUT_FILENO, "exit\n", 5);
+		exit(0);
+	}
+	else if (ft_check_quotes(s, line))
+		return (1);
+	ft_lexer(s, line);
+	if (ft_norminette(s))
+		return (1);
+	ft_parsing(s);
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	t_struct	s;
-	char		*line;
+	t_struct	*s;
 
-	(void) argc;
 	(void) argv;
+	s = malloc(sizeof(t_struct));
+	if (!s)
+		return (ft_error(s, MALLOC, "malloc"), 1);
 	if (argc != 1)
-		ft_error(&s, SYNTAX, "Arguments incorrects");
-	ft_struct_init(&s, envp);
+		return (ft_error(s, ARGC, "No arguments accepted"), 1);
+	ft_struct_init(s, envp);
 	while (1)
 	{
-		ft_signal_init(&s);
-		signal(SIGINT, &ft_signal_handler);
-		signal(SIGQUIT, &ft_signal_handler);
-//		ft_ctrl_remove(1);
-		line = readline("minishell$ ");
-//		ft_ctrl_remove(0);
-		add_history(line);
-		if (ft_check_quotes(&s, line))
+		if (ft_read_line(s))
 			continue ;
-		ft_lexer(&s, line);
-		if (ft_norminette(&s))
-			continue ;
-		ft_parsing(&s);
-		if (line != NULL)
-			ft_exec(&s);
-		else
-		{
-			write(STDOUT_FILENO, "exit\n", 5);
-			exit(0);
-		}
-		printf("node [?] = %s\n", ft_get_env_value(&s, "?"));
-		ft_free_structs(&s);
-		free(line);
-		line = NULL;
+		printf("before exec\n");
+		ft_exec(s);
+		printf("after exec\n");
+		ft_change_return_code(s);
+		printf("g_error = %d\n", g_error);
+		printf("node [?] = %s\n", ft_get_env_value(s, "?"));
+		ft_free_structs(s);
 		system("leaks minishell");
-		//system("leaks minishell");
 	}
-	close(s.fd_in_saved);
-	close(s.fd_out_saved);
-	ft_free_everything(&s, 0);
+	close(s->fd_in_saved);
+	close(s->fd_out_saved);
+	ft_free_everything(s, 0);
 	return (0);
 }

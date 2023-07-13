@@ -16,6 +16,7 @@
 # define EXECVE 7
 # define EXPORT 8
 # define UNSET 9
+# define ARGC 10
 
 # define PERMISSION_DENIED 1
 # define INVALID_OPTION 2
@@ -114,6 +115,7 @@ typedef struct s_struct
 	t_envp				*envp;
 	t_envp				*last_envp;
 	t_token				*token;
+	t_token				*token_syntax_error;
 	t_parsed			*parsed;
 	char				**envp_char;
 	int					*pipe_fd;
@@ -195,6 +197,7 @@ void	ft_free_everything(t_struct *s, int mode);
 void	ft_free_parsed(t_struct *s);
 void	ft_free_ptr(void *ptr);
 void	ft_free_structs(t_struct *s);
+void	ft_free_token(t_struct *s);
 void	ft_free_tab(void **tab);
 
 /*  Lexer */
@@ -240,7 +243,7 @@ int		ft_check_quotes(t_struct *s, char *str);
 
 /*  Utils */
 
-void	ft_node_add_back_redirec(t_parsed *parsed, t_Tokentype type);
+void	ft_node_add_back_redirec(t_parsed **parsed, t_Tokentype type);
 void	ft_node_remove_token(t_struct *s, t_token *node);
 char	**ft_minisplit(char *line, char c);
 void	ft_struct_token(t_struct *s, char **temp);

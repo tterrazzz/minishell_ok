@@ -14,7 +14,6 @@ static t_parsed	*ft_create_parsed_node(void)
 	parsed_node->path = NULL;
 	parsed_node->redirection = NULL;
 	parsed_node->last_redire = NULL;
-	// (*parsed_node)->pipe_fd = NULL;
 	parsed_node->here_d_pipe_fd = NULL;
 	parsed_node->fd_in = 0;
 	parsed_node->fd_out = 0;
@@ -129,7 +128,7 @@ void	ft_node_add_back_envp(t_struct *s, char **value, int i)
 	}
 }*/
 
-void	ft_node_add_back_redirec(t_parsed *parsed, t_Tokentype type)
+void	ft_node_add_back_redirec(t_parsed **parsed, t_Tokentype type)
 {
 	t_redirec	*last;
 
@@ -145,12 +144,12 @@ void	ft_node_add_back_redirec(t_parsed *parsed, t_Tokentype type)
 	last->pid = 0;
 	last->fd = 0;
 	last->type = type;
-	if (!(parsed->redirection))
-		parsed->redirection = last;
-	if (parsed->last_redire)
+	if (!((*parsed)->redirection))
+		(*parsed)->redirection = last;
+	if ((*parsed)->last_redire)
 	{
-		last->prev = parsed->last_redire;
-		parsed->last_redire->next = last;
+		last->prev = (*parsed)->last_redire;
+		(*parsed)->last_redire->next = last;
 	}
-	parsed->last_redire = last;
+	(*parsed)->last_redire = last;
 }

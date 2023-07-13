@@ -8,13 +8,11 @@ NAME = minishell
 UTL_DIR =	utils
 UTL_FILES =	\
 			flag_quote.c \
-			ft_node_add_front.c \
 			minisplit.c \
 			strcpy.c \
 			tokenizer.c \
 			ft_split_add_slash.c \
 			ft_split_envp.c \
-			minisplit.c \
 			node_add_back.c \
 			node_remove.c
 UTL =	$(addprefix $(UTL_DIR)/, $(UTL_FILES))
@@ -24,9 +22,6 @@ SRC_FILES =	\
 			check_quotes.c \
 			dollar.c \
 			dollar2.c \
-			expander.c \
-			free_loop.c \
-			lexer.c \
 			main.c \
 			norminette.c \
 			parsing.c \
@@ -55,7 +50,6 @@ SRC_FILES =	\
 			envp_list_to_tab_string.c \
 			get_last_infile.c \
 			lexer.c \
-			main.c \
 			open_files_get_fds.c \
 			open_here_doc.c \
 			parent_builtin.c \

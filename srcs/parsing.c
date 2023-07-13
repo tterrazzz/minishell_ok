@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	print_parsed_list(t_parsed *parsed_list)
+/*static void	print_parsed_list(t_parsed *parsed_list)
 {
 	t_parsed	*current;
 	int			node_count;
@@ -32,7 +32,7 @@ static void	print_parsed_list(t_parsed *parsed_list)
 		current = current->next;
 		node_count++;
 	}
-}
+}*/
 
 static void	ft_fill_parsed(t_struct *s, t_parsed *current_parsed,
 	t_token **current_token, int i)
@@ -48,7 +48,7 @@ static void	ft_fill_parsed(t_struct *s, t_parsed *current_parsed,
 		if (prov->type == 2 || prov->type == 3 || prov->type == 4
 			|| prov->type == 5)
 		{
-			ft_node_add_back_redirec(current_parsed, prov->type);
+			ft_node_add_back_redirec(&current_parsed, prov->type);
 			useless = prov->next;
 			current_parsed->last_redire->filename = ft_strdup(useless->str);
 			current_parsed->last_redire->filename
@@ -69,6 +69,7 @@ static void	ft_fill_parsed(t_struct *s, t_parsed *current_parsed,
 			prov = prov->next;
 		}
 	}
+//	ft_open_double_redirect_in_one_parsed(s, current_parsed);
 	current_parsed->command = malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	*current_token = begin;
@@ -82,6 +83,7 @@ static void	ft_fill_parsed(t_struct *s, t_parsed *current_parsed,
 		}
 	}
 	current_parsed->command[i] = NULL;
+
 }
 
 void	ft_parsing(t_struct *s)
@@ -101,10 +103,13 @@ void	ft_parsing(t_struct *s)
 			current_parsed = current_parsed->next;
 		}
 		ft_fill_parsed(s, current_parsed, &current_token, 0);
+
+// return gerer return_code (ft_free_structs) continue ->
+
 		current_parsed->command 
 			= ft_dollar_check(s, current_parsed->command, -1);
 		current_parsed->command
 			= ft_quote_check(current_parsed->command, -1, 0, 0);
 	}
-	print_parsed_list(s->parsed);
+	//print_parsed_list(s->parsed);
 }
