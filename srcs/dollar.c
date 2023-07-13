@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llaurenc <llaurenc@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:05:34 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 19:44:13 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/13 23:15:40 by llaurenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,26 @@ static char	*ft_dollar_replace(t_struct *s, char *line, int i, int k)
 
 	start = i;
 	i++;
+	printf("dollar replace line = %s\n", line);
 	if (ft_isalpha(line[i]) || line[i] == '_')
 	{
 		while (line[i] && (ft_isalnum(line[i]) || line[i] == '_'))
 			i++;
+		printf("iffffffff = %d\n", i);
 	}
-	else if (line[i] != '\"')
+	else if (line[i] != '\"' && line[i] != '\'')
 		i++;
+	printf("i = %d\n", i);
 	env_name = malloc(sizeof(char) * (i - start + 1));
 	i = start + 1;
+	printf("c apres $ = [%c]\n", line[i]);
 	ft_fill_dollar(line, &i, &k, &env_name);
 	env_name[k] = '\0';
 	env_value = ft_get_env_value(s, env_name);
+	printf("env_value = %s\n", env_value);
 	line = ft_dollar_change(line, start, k, env_value);
 	free(env_name);
+	printf("line = %s\n", line);
 	return (line);
 }
 

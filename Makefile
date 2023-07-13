@@ -1,5 +1,5 @@
 CC = @gcc
-CFLAGS = -Wall -Wextra -Werror -I ./srcs/minishell.h #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I ./srcs/minishell.h -fsanitize=address -g
 RM = @rm -rf
 LIB_DIR = ./utils/libft
 LIB = libft.a
