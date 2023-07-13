@@ -75,7 +75,7 @@ $(OBJ_DIR)/$(UTL_DIR):
 
 $(NAME): $(OBJ) $(LIB_DIR)/$(LIB)
 	@echo "Compiling Executable"
-	$(CC) $(CFLAGS) $(LIB_DIR)/$(LIB) -g -o $(NAME) $(OBJ) -L /Users/avan/.brew/opt/readline/lib -lreadline -L ~/.brew/opt/readline/include/readline 
+	$(CC) $(CFLAGS) $(LIB_DIR)/$(LIB) -g -o $(NAME) $(OBJ) -L ~/.brew/opt/readline/lib -lreadline -L ~/.brew/opt/readline/include/readline 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
