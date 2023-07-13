@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dollar2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/13 18:02:55 by avan              #+#    #+#             */
+/*   Updated: 2023/07/13 19:43:58 by avan             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	*ft_strnew(size_t size)
@@ -22,7 +34,6 @@ static char	*ft_dollar_change(char *str, int start, int end, char *new_str)
 	result = ft_strnew(str_len - (end - start) + new_str_len);
 	if (start < 0 || end < 0 || start >= str_len || end >= str_len)
 	{
-		printf("erreur de jugement \n");
 		return (NULL);
 	}
 	ft_strncpy(result, str, start);
@@ -39,23 +50,21 @@ static char	*ft_dollar_replace(t_struct *s, char *line, int i)
 	int		k;
 	int		start;
 
-	printf("DOLLAR REPLACE\n");
 	k = 0;
 	start = i;
 	i++;
-	while (line[i] && ft_isalnum(line[i]))
+	if (ft_isalpha(line[i]) || line[i] == '_')
+	{
+		while (line[i] && (ft_isalnum(line[i]) || line[i] == '_'))
+			i++;
+	}
+	else if (line[i] != '\"')
 		i++;
 	env_name = malloc(sizeof(char) * (i - start + 1));
 	i = start + 1;
-	while (line[i] && ft_isalnum(line[i]))
-	{
-		env_name[k] = line[i];
-		i++;
-		k++;
-	}
+	ft_fill_dollar(line, &i, &k, &env_name);
 	env_name[k] = '\0';
 	env_value = ft_get_env_value(s, env_name);
-	printf("%s\n", env_value);
 	line = ft_dollar_change(line, start, k, env_value);
 	free(env_name);
 	return (line);
@@ -81,14 +90,17 @@ char	*ft_dollar_check2(t_struct *s, char *line)
 	{
 		flag = ft_is_flagged(line[i], flag);
 		if (line[i] == '\'' && flag == 0)
-		{
-			i++;
-			while (line[i] != '\'')
-				i++;
-			i++;
-		}
+			ft_advance_quoted(line, &i);
 		else if (line[i] == '$')
+		{
+			if (line[i + 1] || line[i + 1] == ' '
+				|| (line[i + 1] == '\"' && flag == 1))
+			{
+				i++;
+				continue ;
+			}
 			line = ft_dollar_replace(s, line, i);
+		}
 		else
 			i++;
 	}

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parent_builtin.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/13 18:07:45 by avan              #+#    #+#             */
+/*   Updated: 2023/07/13 18:11:48 by avan             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*	void ft_env_changing_builtin is called in the parent process right after
@@ -39,7 +51,7 @@ int	ft_last_is_builtin(t_parsed *parsed)
 		cmd = parsed->command[0];
 	if (!ft_strncmp(cmd, "cd") || !ft_strncmp(cmd, "exit")
 		|| !ft_strncmp(cmd, "unset") || (parsed->command && parsed->command[0]
-		&& parsed->command[1] && !ft_strncmp(cmd, "export"))
+			&& parsed->command[1] && !ft_strncmp(cmd, "export"))
 		|| !ft_strncmp(cmd, "env") || !ft_strncmp(cmd, "pwd")
 		|| !(ft_check_if_slash(cmd, PARENT)))
 		return (1);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/13 18:07:51 by avan              #+#    #+#             */
+/*   Updated: 2023/07/13 20:43:39 by avan             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_struc	g_st;
@@ -8,19 +20,19 @@ int	print_error(t_struct *s, int error_code, char *content)
 		return (0);
 	if (error_code == 1)
 	{
-		ft_printf("\033[91m%s\033[0m\n",
+		ft_printf("%s\n",
 			"minishell: parse error quotes are never closed");
 		g_st.error = 1;
 	}
 	else if (error_code == 2)
 	{
-		ft_printf("\033[91m%s '%s'\033[0m\n",
+		ft_printf("%s '%s'\n",
 			"minishell: syntax error near unexpected token", content);
 		g_st.error = 258;
 	}
 	else if (error_code == 3)
 	{
-		ft_printf("\033[91m%s\033[0m\n",
+		ft_printf("%s\n",
 			"minishell: syntax error");
 		g_st.error = 1;
 	}
@@ -76,7 +88,6 @@ int	main(int argc, char **argv, char **envp)
 		ft_exec(s);
 		ft_change_return_code(s);
 		ft_free_structs(s);
-//		system("leaks minishell");
 	}
 	close(s->fd_in_saved);
 	close(s->fd_out_saved);

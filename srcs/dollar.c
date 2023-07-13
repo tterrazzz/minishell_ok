@@ -1,5 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dollar.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/13 18:05:34 by avan              #+#    #+#             */
+/*   Updated: 2023/07/13 19:44:13 by avan             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "minishell.h"
 
 static char	*ft_strnew(size_t size)
 {
@@ -14,16 +25,15 @@ static char	*ft_strnew(size_t size)
 
 static char	*ft_dollar_change(char *str, int start, int end, char *new_str)
 {
+	char	*result;
 	int		str_len;
 	int		new_str_len;
-	char	*result;
 
 	str_len = ft_strlen(str);
 	new_str_len = ft_strlen(new_str);
 	result = ft_strnew(str_len - (end - start) + new_str_len);
-	if (start < 0 || end < 0 || start >= str_len
-		|| end >= str_len)
-		printf("erreur de jugement \n");
+	if (start < 0 || end < 0 || start >= str_len || end >= str_len)
+		return (NULL);
 	ft_strncpy(result, str, start);
 	ft_strcpy(result + start, new_str);
 	ft_strcpy(result + start + new_str_len, str + end + start + 1);
@@ -31,14 +41,12 @@ static char	*ft_dollar_change(char *str, int start, int end, char *new_str)
 	return (result);
 }
 
-static char	*ft_dollar_replace(t_struct *s, char *line, int i)
+static char	*ft_dollar_replace(t_struct *s, char *line, int i, int k)
 {
 	char	*env_name;
 	char	*env_value;
-	int		k;
 	int		start;
 
-	k = 0;
 	start = i;
 	i++;
 	if (ft_isalpha(line[i]) || line[i] == '_')
@@ -50,21 +58,7 @@ static char	*ft_dollar_replace(t_struct *s, char *line, int i)
 		i++;
 	env_name = malloc(sizeof(char) * (i - start + 1));
 	i = start + 1;
-	if (ft_isalpha(line[i]) || line[i] == '_')
-	{
-		while (line[i] && (ft_isalnum(line[i]) || line[i] == '_'))
-		{
-			env_name[k] = line[i];
-			i++;
-			k++;
-		}
-	}
-	else if (line[i] != '\"')
-	{
-		env_name[k] = line[i];
-		i++;
-		k++;
-	}
+	ft_fill_dollar(line, &i, &k, &env_name);
 	env_name[k] = '\0';
 	env_value = ft_get_env_value(s, env_name);
 	line = ft_dollar_change(line, start, k, env_value);
@@ -81,12 +75,10 @@ static int	ft_is_flagged(char c, int flag)
 	return (flag);
 }
 
-char	**ft_dollar_check(t_struct *s, char **tab, int j)
+char	**ft_dollar_check(t_struct *s, char **tab, int j, int flag)
 {
-	int		i;
-	int		flag;
+	int	i;
 
-	flag = 0;
 	while (tab[++j])
 	{
 		i = 0;
@@ -94,12 +86,7 @@ char	**ft_dollar_check(t_struct *s, char **tab, int j)
 		{
 			flag = ft_is_flagged(tab[j][i], flag);
 			if (tab[j][i] == '\'' && flag == 0)
-			{
-				i++;
-				while (tab[j][i] != '\'')
-					i++;
-				i++;
-			}
+				ft_advance_quoted(tab[j], &i);
 			else if (tab[j][i] == '$')
 			{
 				if (!tab[j][i + 1] || tab[j][i + 1] == ' '
@@ -108,7 +95,7 @@ char	**ft_dollar_check(t_struct *s, char **tab, int j)
 					i++;
 					continue ;
 				}
-				tab[j] = ft_dollar_replace(s, tab[j], i);
+				tab[j] = ft_dollar_replace(s, tab[j], i, 0);
 			}
 			else
 				i++;
@@ -116,107 +103,3 @@ char	**ft_dollar_check(t_struct *s, char **tab, int j)
 	}
 	return (tab);
 }
-
-/*
-static char	*ft_strnew(size_t size)
-{
-	char	*str;
-
-	str = (char *)malloc(sizeof(char) * (size + 1));
-	if (str == NULL)
-		return (NULL);
-	ft_bzero(str, size + 1);
-	return (str);
-}
-
-static char	*ft_dollar_change(char *str, int start, int end, char *new_str)
-{
-	int		str_len;
-	int		new_str_len;
-	char	*result;
-
-	str_len = ft_strlen(str);
-	new_str_len = ft_strlen(new_str);
-	result = ft_strnew(str_len - (end - start) + new_str_len);
-	if (start < 0 || end < 0 || start >= str_len
-		|| end >= str_len)
-		printf("erreur de jugement \n");
-	ft_strncpy(result, str, start);
-	ft_strcpy(result + start, new_str);
-	ft_strcpy(result + start + new_str_len, str + end + start + 1);
-	free(str);
-	return (result);
-}
-
-static char	*ft_dollar_replace(t_struct *s, char *line, int i)
-{
-	char	*env_name;
-	char	*env_value;
-	int		k;
-	int		start;
-
-	k = 0;
-	start = i;
-	i++;
-	while (line[i] && ft_isalnum(line[i]))
-		i++;
-	env_name = malloc(sizeof(char) * (i - start + 1));
-	i = start + 1;
-	while (line[i] && ft_isalnum(line[i]))
-	{
-		env_name[k] = line[i];
-		i++;
-		k++;
-	}
-	env_name[k] = '\0';
-	env_value = ft_get_env_value(s, env_name);
-	line = ft_dollar_change(line, start, k, env_value);
-	free(env_name);
-	return (line);
-}
-
-static int	ft_is_flagged(char c, int flag)
-{
-	if (c == '\"' && flag == 1)
-		flag = 0;
-	else if (c == '\"' && flag == 0)
-		flag = 1;
-	return (flag);
-}
-
-char	**ft_dollar_check(t_struct *s, char **tab, int j)
-{
-	int		i;
-	int		flag;
-
-	flag = 0;
-	while (tab[++j])
-	{
-		i = 0;
-		while (tab[j][i])
-		{
-			flag = ft_is_flagged(tab[j][i], flag);
-			if (tab[j][i] == '\'' && flag == 0)
-			{
-				i++;
-				while (tab[j][i] != '\'')
-					i++;
-				i++;
-			}
-			else if (tab[j][i] == '$')
-			{
-				if (!tab[j][i + 1] || tab[j][i + 1] == ' '
-					|| tab[j][i + 1] == '\"')
-				{
-					i++;
-					continue ;
-				}
-				tab[j] = ft_dollar_replace(s, tab[j], i);
-			}
-			else
-				i++;
-		}
-	}
-	return (tab);
-}
-*/

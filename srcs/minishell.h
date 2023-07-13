@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/13 18:03:35 by avan              #+#    #+#             */
+/*   Updated: 2023/07/13 19:47:47 by avan             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -126,8 +138,6 @@ typedef struct s_struct
 	int					fd_in_saved;
 	int					fd_out_saved;
 	int					fd_err_saved;
-	int					i_cmd;
-	int					nb_cmd;
 	int					f_quote;
 	int					f_dquote;
 	int					i;
@@ -199,9 +209,12 @@ void	ft_free_tab(void **tab);
 
 /*  Lexer */
 
+void	ft_advance_quoted(char *line, int *i);
+char	*ft_add_space(t_struct *s, char *line);
 void	ft_lexer(t_struct *s, char *line);
-char	**ft_dollar_check(t_struct *s, char **tab, int j);
+char	**ft_dollar_check(t_struct *s, char **tab, int j, int flag);
 char	*ft_dollar_check2(t_struct *s, char *line);
+void	ft_fill_dollar(char *line, int *i, int *k, char **env_name);
 char	**ft_quote_check(char **tab, int j, int i, int start);
 char	*ft_quote_check2(char *line, int i, int start);
 

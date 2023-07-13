@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/13 18:18:36 by avan              #+#    #+#             */
+/*   Updated: 2023/07/13 20:40:50 by avan             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	ft_error_cd(char *arg, int error)
@@ -65,6 +77,8 @@ static void	ft_cd_path_home(t_struct *s, t_parsed *p, char *home_value)
 		if (chdir(home_value) == -1)
 			write(STDERR_FILENO, "minishell: cd: HOME not set\n", 28);
 	}
+	else if (chdir(p->command[1]) == -1)
+		ft_error_cd(p->command[1], INVALID_IDENTIFIER);
 }
 
 int	ft_cd(t_struct *s, t_parsed *p)

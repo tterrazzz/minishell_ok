@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd2.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/13 18:18:48 by avan              #+#    #+#             */
+/*   Updated: 2023/07/13 20:42:24 by avan             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	ft_set_old_pwd_memory(t_struct *s, t_envp *temp, char *old_pwd)
@@ -44,6 +56,17 @@ void	ft_check_old_pwd(t_struct *s, char *old_pwd)
 	ft_node_add_back_envp(s, value, 2);
 }
 
+static void	ft_change_old_pwd2(t_struct *s, char *old_pwd)
+{
+	if (!s || !old_pwd)
+		return ;
+	if (s->unset_oldpwd == 0)
+	{
+		ft_check_old_pwd(s, old_pwd);
+		ft_reassign_updated_envp_char(s);
+	}
+}
+
 static void	ft_change_old_pwd(t_struct *s, char *new_pwd)
 {
 	t_envp	*temp;
@@ -66,11 +89,9 @@ static void	ft_change_old_pwd(t_struct *s, char *new_pwd)
 		}
 		temp = temp->next;
 	}
-	if (s->unset_oldpwd == 0)
-	{
-		ft_check_old_pwd(s, old_pwd);
-		ft_reassign_updated_envp_char(s);
-	}
+	if (!temp)
+		free(new_pwd);
+	ft_change_old_pwd2(s, old_pwd);
 }
 
 void	ft_change_pwd(t_struct *s, char *new_pwd)

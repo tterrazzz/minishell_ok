@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   node_add_back.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/13 18:09:26 by avan              #+#    #+#             */
+/*   Updated: 2023/07/13 18:09:26 by avan             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../srcs/minishell.h"
 
 /*	static t_parsed *ft_create_parsed_node initialize a node of parsed */
@@ -45,34 +57,6 @@ void	ft_node_add_back_parsed(t_struct *s)
 	}
 }
 
-/*	void ft_node_add_back_envp_export creates a envp node and adds it at
-	the back of the envp_export linked list */
-/*void	ft_node_add_back_envp_export(t_struct *s, char **value, int i)
-{
-	t_envp	*last;
-	t_envp	*temp;
-
-	if (!s)
-		return ;
-	last = malloc(sizeof(t_envp));
-	if (!last)
-		return ;
-	last->value = value;
-	last->nb_words = i;
-	last->next = NULL;
-	last->prev = NULL;
-	if (!s->envp_export)
-		s->envp_export = last;
-	else
-	{
-		temp = s->envp_export;
-		while (temp->next)
-			temp = temp->next;
-		last->prev = temp;
-		temp->next = last;
-	}
-}*/
-
 /*	void ft_node_add_back_envp creates a envp node and adds it at
 	the back of the envp linked list */
 void	ft_node_add_back_envp(t_struct *s, char **value, int i)
@@ -101,33 +85,6 @@ void	ft_node_add_back_envp(t_struct *s, char **value, int i)
 		temp->next = last;
 	}
 }
-
-/*	void ft_node_add_back_token creates a token node and adds it at
-	the back of the token linked list */
-/*void	ft_node_add_back_token(t_struct *s, char *str)
-{
-	t_token	*last;
-	t_token	*temp;
-
-	if (!s || !str)
-		return ;
-	last = malloc(sizeof(t_token));
-	if (!last)
-		return ;
-	last->str = str;
-	last->next = NULL;
-	last->prev = NULL;
-	if (!(s->token))
-		s->token = last;
-	else
-	{
-		temp = s->token;
-		while (temp->next)
-			temp = temp->next;
-		last->prev = temp;
-		temp->next = last;
-	}
-}*/
 
 void	ft_node_add_back_redirec(t_parsed **parsed, t_Tokentype type)
 {

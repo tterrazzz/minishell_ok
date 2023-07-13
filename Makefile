@@ -1,5 +1,5 @@
 CC = @gcc
-CFLAGS = -Wall -Wextra -Werror -I ./srcs/minishell.h -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I ./srcs/minishell.h #-fsanitize=address -g
 RM = @rm -rf
 LIB_DIR = ./utils/libft
 LIB = libft.a
@@ -7,6 +7,7 @@ NAME = minishell
 
 UTL_DIR =	utils
 UTL_FILES =	\
+			add_space.c \
 			flag_quote.c \
 			minisplit.c \
 			strcpy.c \
@@ -22,6 +23,7 @@ SRC_FILES =	\
 			check_quotes.c \
 			dollar.c \
 			dollar2.c \
+			dollarbis.c \
 			main.c \
 			norminette.c \
 			parsing.c \

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wait_all_processes.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/13 18:08:01 by avan              #+#    #+#             */
+/*   Updated: 2023/07/13 20:39:21 by avan             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	ft_error_code_cd(t_struct *s, t_parsed *parsed)
@@ -20,10 +32,10 @@ static void	ft_error_code_cd(t_struct *s, t_parsed *parsed)
 		g_st.error = 1;
 	else if (str && (i == 1 || i == 2) && i == (int) ft_strlen(str))
 	{
-		if (i == 2 && str2 && chdir(str2) == -1)
+		if (i == 2 && str2 && !(s->pwd_memory))
 			g_st.error = 1;
 	}
-	else if (str && ft_strncmp(str, "~") && chdir(str) == -1)
+	else if (str && ft_strncmp(str, "~") && !(s->pwd_memory))
 		g_st.error = 1;
 }
 
