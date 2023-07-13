@@ -17,7 +17,7 @@ t_tab_envp	**ft_sort_tab(t_struct *s, t_tab_envp **tab_envp)
 	int		i;
 	int		j;
 
-	if (!s || !tab_envp)
+	if (!s || !tab_envp || (tab_envp && !(*tab_envp)))
 		return (NULL);
 	i = 0;
 	j = 0;
@@ -95,10 +95,11 @@ void	ft_print_envp_ascii_order(t_struct *s)
 
 	if (!s)
 		return ;
+	tab_envp = NULL;
 	tab_envp = ft_tab_envp(s);
 	i = 0;
 	temp = NULL;
-	while (tab_envp[i])
+	while (tab_envp && tab_envp[i])
 	{
 		write(STDOUT_FILENO, "declare -x ", 11);
 		write(STDOUT_FILENO, tab_envp[i]->name, ft_strlen(tab_envp[i]->name));

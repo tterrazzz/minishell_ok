@@ -1,7 +1,6 @@
-
 #include "minishell.h"
 
-int	g_error = 0;
+t_struc	g_st;
 
 int	print_error(t_struct *s, int error_code, char *content)
 {
@@ -11,19 +10,19 @@ int	print_error(t_struct *s, int error_code, char *content)
 	{
 		ft_printf("\033[91m%s\033[0m\n",
 			"minishell: parse error quotes are never closed");
-		g_error = 1;
+		g_st.error = 1;
 	}
 	else if (error_code == 2)
 	{
 		ft_printf("\033[91m%s '%s'\033[0m\n",
 			"minishell: syntax error near unexpected token", content);
-		g_error = 258;
+		g_st.error = 258;
 	}
 	else if (error_code == 3)
 	{
 		ft_printf("\033[91m%s\033[0m\n",
 			"minishell: syntax error");
-		g_error = 1;
+		g_st.error = 1;
 	}
 	return (1);
 }
@@ -39,9 +38,11 @@ static int	ft_read_line(t_struct *s)
 	ft_signal_init(s);
 	signal(SIGINT, &ft_signal_handler);
 	signal(SIGQUIT, &ft_signal_handler);
-//	ft_ctrl_remove(1);
+	ft_ctrl_remove(1);
 	line = readline("minishell$ ");
-//	ft_ctrl_remove(0);
+	ft_ctrl_remove(0);
+	if (g_st.signal)
+		ft_change_return_code(s);
 	add_history(line);
 	if (!line)
 	{
@@ -49,7 +50,7 @@ static int	ft_read_line(t_struct *s)
 		exit(0);
 	}
 	else if (ft_check_quotes(s, line))
-		return (1);
+		return (ft_change_return_code(s), 1);
 	ft_lexer(s, line);
 	if (ft_norminette(s))
 		return (1);
@@ -72,14 +73,10 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (ft_read_line(s))
 			continue ;
-		printf("before exec\n");
 		ft_exec(s);
-		printf("after exec\n");
 		ft_change_return_code(s);
-		printf("g_error = %d\n", g_error);
-		printf("node [?] = %s\n", ft_get_env_value(s, "?"));
 		ft_free_structs(s);
-		system("leaks minishell");
+//		system("leaks minishell");
 	}
 	close(s->fd_in_saved);
 	close(s->fd_out_saved);

@@ -96,22 +96,12 @@ void	ft_lexer(t_struct *s, char *line)
 {
 	char	**temp;
 	int		i;
-	t_token	*test;
 
 	i = -1;
 	line = ft_add_space(s, line);
 	temp = ft_minisplit(line, ' ');
-	// while (temp[++i])
-	// 	printf("temp de [%d] = [%s]\n", i, temp[i]);
-	// i = -1;
 	ft_struct_token(s, temp);
-	test = s->token;
-	while (test != NULL)
-	{
-		printf(" le token est : %s\n", test->str);
-		printf("le token est de type : %d\n", test->type);
-		test = test->next;
-	}
+
 	while (temp[++i])
 		free(temp[i]);
 	free(temp);

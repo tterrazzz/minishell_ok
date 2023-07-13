@@ -13,7 +13,7 @@ void	ft_change_return_code(t_struct *s)
 	{
 		if (return_code->value[1])
 			ft_free_ptr((void *)return_code->value[1]);
-//		return_code->value[1] = ft_itoa(s->error);
-		return_code->value[1] = ft_itoa(g_error);
+		return_code->value[1] = ft_itoa(g_st.error);
 	}
+	g_st.signal = 0;
 }

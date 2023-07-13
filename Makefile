@@ -1,5 +1,5 @@
 CC = @gcc
-CFLAGS = -Wall -Wextra -Werror -I ./srcs/minishell.h #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I ./srcs/minishell.h -fsanitize=address -g
 RM = @rm -rf
 LIB_DIR = ./utils/libft
 LIB = libft.a
@@ -32,7 +32,6 @@ SRC_FILES =	\
 			change_env.c \
 			change_return_code.c \
 			check_slash.c \
-			close_all_previous_files.c \
 			dot.c \
 			echo.c \
 			env.c \

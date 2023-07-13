@@ -68,9 +68,7 @@ void	ft_free_structs(t_struct *s)
 		ft_free_parsed(s);
 	s->i = 0;
 	s->j = 0;
-	g_state = MINISHELL;
-	g_error = 0;
-	//s->error = 0;
+	g_st.error = 0;
 }
 
 /*  void ft_free_everything frees everything, if mode == 1, even the structs */
@@ -86,4 +84,5 @@ void	ft_free_everything(t_struct *s, int mode)
 	ft_free_tab((void **)s->path_tab);
 	ft_free_ptr((void *)s->old_pwd_memory);
 	ft_free_ptr((void *)s->pwd_memory);
+	ft_free_ptr((void *)s);
 }

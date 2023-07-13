@@ -74,7 +74,7 @@ int	ft_open_files_inside_pipe(t_struct *s, t_parsed *parsed)
 			|| (temp_redire->type == double_redirect_out))
 			error_code = ft_open_file_out(s, parsed, temp_redire);
 		if (error_code)
-			return (ft_close_all_previous_files_error(parsed), 1);
+			return (1);
 		temp_redire = temp_redire->next;
 	}
 	ft_get_fd_last_infile(parsed);

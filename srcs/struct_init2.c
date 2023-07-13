@@ -18,25 +18,21 @@ char	**ft_get_path_envp_tab(t_envp *envp)
 	return (path_tab);
 }
 
+/*	void ft_signal_init changes the behavior of SIGINT and SIGQUIT, it also
+	changes the termios */
 void	ft_signal_init(t_struct *s)
 {
 	struct termios	saved;
 
 	if (!s)
 		return ;
+	dup2(s->fd_in_saved, STDIN_FILENO);
+	dup2(s->fd_out_saved, STDOUT_FILENO);
+	dup2(s->fd_err_saved, STDERR_FILENO);
 	tcgetattr(STDIN_FILENO, &(saved));
-//	tcgetattr(STDIN_FILENO, &(s->termios));
 	s->termios = saved;
 	s->termios.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &(s->termios));
-	/*s->sa.sa_handler = &ft_signal_handler;
-	s->sa.sa_flags = 0;
-	if (sigaction(SIGINT, &(s->sa), NULL) == -1) {
-        perror("Failed to set up SIGINT handler");
-    }
-    else if (sigaction(SIGQUIT, &(s->sa), NULL) == -1) {
-        perror("Failed to set up SIGQUIT handler");
-    }*/
 	signal(SIGINT, &ft_signal_handler);
 	signal(SIGQUIT, &ft_signal_handler);
 }

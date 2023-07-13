@@ -1,5 +1,30 @@
 #include "minishell.h"
 
+static void	ft_check_basic_env(t_struct *s, int old_pwd, int pwd, int shlvl)
+{
+	t_envp	*temp;
+
+	if (!s)
+		return ;
+	temp = s->envp;
+	while (temp)
+	{
+		if (!ft_strncmp(temp->value[0], "OLDPWD"))
+			old_pwd = 1;
+		else if (!ft_strncmp(temp->value[0], "PWD"))
+			pwd = 1;
+		else if (!ft_strncmp(temp->value[0], "SHLVL"))
+			shlvl = 1;
+		temp = temp->next;
+	}
+	if (!old_pwd)
+		ft_create_oldpwd_envp(s);
+	if (!pwd)
+		ft_create_pwd_envp(s);
+	if (!shlvl)
+		ft_create_shlvl_envp(s);
+}
+
 /*	static void ft_read_and_create_envp reads the existing environment and
 	creates the envp list */
 static void	ft_read_and_create_envp(t_struct *s, char **envp)
@@ -26,6 +51,7 @@ static void	ft_read_and_create_envp(t_struct *s, char **envp)
 			s->last_envp->value[1] = ft_itoa(temp + 1);
 		}
 	}
+	ft_check_basic_env(s, 0, 0, 0);
 	return ;
 }
 
@@ -60,7 +86,7 @@ static void	ft_struct_envp(t_struct *s, char **envp)
 	if (!s || !envp)
 		return ;
 	if (!(*envp))
-		return (ft_create_environment(s, NULL));
+		return (ft_create_environment(s));
 	ft_read_and_create_envp(s, envp);
 	ft_check_return_code_node(s);
 }
@@ -72,7 +98,6 @@ void	ft_struct_init(t_struct *s, char **envp)
 		return ;
 	s->envp = NULL;
 	s->token = NULL;
-	s->token_syntax_error = NULL;
 	s->parsed = NULL;
 	ft_struct_envp(s, envp);
 	s->path_tab = ft_get_path_envp_tab(s->envp);
@@ -90,4 +115,5 @@ void	ft_struct_init(t_struct *s, char **envp)
 	s->j = 0;
 	s->error = 0;
 	s->envp_char = ft_envp_list_to_tab_string(s->envp);
+	g_st.signal = 0;
 }

@@ -12,9 +12,7 @@ static void	ft_error_export2(t_struct *s, char *arg)
 	ft_free_ptr((void *) stock);
 	write(STDERR_FILENO, str, ft_strlen(str));
 	ft_free_ptr((void *) str);
-	printf("ft_error_export invalid_identifier\n");
-	//s->error = 1;
-	g_error = 1;
+	g_st.error = 1;
 }
 
 void	ft_error_export(t_struct *s, char *arg, int error)
@@ -35,9 +33,7 @@ void	ft_error_export(t_struct *s, char *arg, int error)
 		ft_free_ptr((void *) stock);
 		write(STDERR_FILENO, str, ft_strlen(str));
 		ft_free_ptr((void *) str);
-		printf("ft_error_export invalid_option\n");
-		g_error = 2;
-		//s->error = 2;
+		g_st.error = 2;
 	}
 	else
 		ft_error_export2(s, arg);

@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+/*	static void	ft_error_unset_identifier gets called by ft_error_unset */
 static void	ft_error_unset_identifier(t_struct *s, char *arg)
 {
 	char	*str;
@@ -14,10 +15,11 @@ static void	ft_error_unset_identifier(t_struct *s, char *arg)
 	ft_free_ptr((void *) stock);
 	write(STDERR_FILENO, str, ft_strlen(str));
 	ft_free_ptr((void *) str);
-	//s->error = 1;
-	g_error = 1;
+	g_st.error = 1;
 }
 
+/*	void ft_error_unset writes the correct error message for the unset function
+	and sets g_st.error */
 void	ft_error_unset(t_struct *s, char *arg, int error)
 {
 	char	*str;
@@ -36,8 +38,7 @@ void	ft_error_unset(t_struct *s, char *arg, int error)
 		ft_free_ptr((void *) stock);
 		write(STDERR_FILENO, str, ft_strlen(str));
 		ft_free_ptr((void *) str);
-		//s->error = 2;
-		g_error = 2;
+		g_st.error = 2;
 	}
 	else
 		ft_error_unset_identifier(s, arg);

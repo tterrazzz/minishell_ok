@@ -88,9 +88,12 @@ void	ft_change_underscore(t_struct *s, t_parsed *parsed)
 		last = last->next;
 	if (last->command)
 	{
-		while (last->command[i + 1])
-			i++;
-		last_argument = last->command[i];
+		if (last->command[i])
+		{
+			while (last->command[i] && last->command[i + 1])
+				i++;
+			last_argument = last->command[i];
+		}
 	}
 	ft_change_envp_node(s, last_argument);
 }

@@ -20,8 +20,7 @@ static int	ft_error_env_pwd(t_struct *s, char *arg)
 	ft_free_ptr((void *) str);
 	write(STDERR_FILENO, str2, ft_strlen(str2));
 	ft_free_ptr((void *) str2);
-	//s->error = 1;
-	g_error = 1;
+	g_st.error = 1;
 	return (0);
 }
 
@@ -101,7 +100,7 @@ int	ft_find_built_in(t_struct *s, t_parsed *parsed)
 		return (error_env);
 	}
 	else if (!ft_strncmp(cmd, "pwd"))
-		return (ft_pwd(parsed));
+		return (ft_pwd(s, parsed));
 	else if (!ft_strncmp(cmd, "echo"))
 		return (ft_echo(s, parsed));
 	else if (!ft_strncmp(cmd, "exit"))

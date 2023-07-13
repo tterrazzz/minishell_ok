@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:52:49 by marvin            #+#    #+#             */
-/*   Updated: 2023/07/12 19:50:15 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/13 10:25:59 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ char	*ft_strdup(char *s)
 	char	*dup;
 	int		i;
 
+	if (!s)
+		return (NULL);
 	dup = malloc(sizeof(char) * (ft_strlen2(s) + 1));
 	if (!dup)
 		return (NULL);

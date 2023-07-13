@@ -50,7 +50,6 @@ static int	ft_mot(char *str, char c, int i, int mot)
 			i++;
 		}
 	}
-	printf("mot : %d\n", mot);
 	return (mot);
 }
 
@@ -98,4 +97,3 @@ char	**ft_minisplit(char *line, char c)
 	tab[j] = 0;
 	return (tab);
 }
-

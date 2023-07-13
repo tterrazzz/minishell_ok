@@ -75,3 +75,17 @@ void	ft_error_env(t_struct *s, char *name)
 	write(STDERR_FILENO, str, ft_strlen(str));
 	ft_free_ptr((void *)str);
 }
+
+/*	void ft_error_code gets the number of the execve */
+void	ft_error_code(int error_last_cmd)
+{
+	if (WIFSIGNALED(error_last_cmd))
+	{
+		if (WTERMSIG(error_last_cmd) == SIGINT)
+			g_st.error = 130;
+		else if (WTERMSIG(error_last_cmd) == SIGQUIT)
+			g_st.error = 131;
+		else if (WTERMSIG(error_last_cmd) == SIGSEGV)
+			g_st.error = 139;
+	}
+}

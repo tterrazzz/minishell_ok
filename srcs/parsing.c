@@ -69,10 +69,12 @@ static void	ft_fill_parsed(t_struct *s, t_parsed *current_parsed,
 			prov = prov->next;
 		}
 	}
-//	ft_open_double_redirect_in_one_parsed(s, current_parsed);
 	current_parsed->command = malloc(sizeof(char *) * (i + 1));
 	i = 0;
-	*current_token = begin;
+	if (begin)
+		*current_token = begin;
+	else
+		*current_token = prov;
 	if (*current_token != NULL)
 	{
 		while ((*current_token) != NULL && (*current_token)->type != pipex)
@@ -103,13 +105,25 @@ void	ft_parsing(t_struct *s)
 			current_parsed = current_parsed->next;
 		}
 		ft_fill_parsed(s, current_parsed, &current_token, 0);
-
-// return gerer return_code (ft_free_structs) continue ->
-
 		current_parsed->command 
 			= ft_dollar_check(s, current_parsed->command, -1);
 		current_parsed->command
 			= ft_quote_check(current_parsed->command, -1, 0, 0);
+	}
+	t_parsed	*temp = s->parsed;
+	t_redirec	*temp_redire = s->parsed->redirection;
+	while (temp)
+	{
+		printf("parsed->command = %s\n", temp->command[0]);
+		temp_redire = temp->redirection;
+		while (temp_redire)
+		{
+			printf("temp_redire = %p\n", temp_redire);
+			if (temp_redire->filename)
+				printf("temp_redire = %s\n", temp_redire->filename);
+			temp_redire = temp_redire->next;
+		}
+		temp = temp->next;
 	}
 	//print_parsed_list(s->parsed);
 }

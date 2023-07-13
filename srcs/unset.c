@@ -57,7 +57,7 @@ static int	ft_check_args_unset(t_struct *s, char *str)
 	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
 	if (i < (int) ft_strlen(str))
-		return (ft_error_export(s, str, INVALID_IDENTIFIER), 1);
+		return (ft_error_unset(s, str, INVALID_IDENTIFIER), 1);
 	return (0);
 }
 

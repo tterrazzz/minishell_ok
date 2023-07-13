@@ -65,13 +65,6 @@ static void	ft_cd_path_home(t_struct *s, t_parsed *p, char *home_value)
 		if (chdir(home_value) == -1)
 			write(STDERR_FILENO, "minishell: cd: HOME not set\n", 28);
 	}
-	/*else
-	{
-		printf("MARETE p->command[1] = %s\n", p->command[1]);
-		//chdir("..");
-		if (chdir(p->command[1]) == -1)
-			ft_error_cd(p->command[1], INVALID_IDENTIFIER);
-	}*/
 }
 
 int	ft_cd(t_struct *s, t_parsed *p)

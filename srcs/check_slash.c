@@ -22,7 +22,7 @@ static int	ft_check_if_dir_slash(char *cmd, int mode)
 				write(STDERR_FILENO, str, ft_strlen(str));
 				ft_free_ptr((void *) stock);
 				ft_free_ptr((void *) str);
-				g_error = 126;
+				g_st.error = 126;
 			}
 			return (0);
 		}
@@ -32,7 +32,7 @@ static int	ft_check_if_dir_slash(char *cmd, int mode)
 
 /*	int ft_check_if_slash returns 0 if it is not a directory so the child
 	gets the command, otherwise, the directory is not sent to execve, at the
-	same time, the parent will change the g_error value accordingly and
+	same time, the parent will change the g_st.error value accordingly and
 	write the error message */
 int	ft_check_if_slash(char *cmd, int mode)
 {

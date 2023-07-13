@@ -64,10 +64,7 @@ static void	ft_parent_process(t_struct *s, t_parsed *parsed)
 		dup2(s->pipe_fd[0], s->previous_fd);
 	close(s->pipe_fd[0]);
 	if (parsed->here_d_pipe_fd)
-	{
 		close(parsed->here_d_pipe_fd[0]);
-		//ft_free_ptr((void *)parsed->here_d_pipe_fd);
-	}
 	if (!(parsed->next))
 		ft_wait_all_processes(s);
 }
@@ -103,11 +100,13 @@ void	ft_exec(t_struct *s)
 
 	if (!s)
 		return ;
-//	s->error = 0;
-	g_error = 0;
+	g_st.error = 0;
 	parsed = s->parsed;
 	if (parsed->redirection)
-		ft_open_double_redirect_in(s, parsed);
+	{
+		if (ft_open_double_redirect_in(s, parsed))
+			return ;
+	}
 	s->previous_fd = dup(STDIN_FILENO);
 	ft_change_underscore(s, parsed);
 	while (parsed)
@@ -115,7 +114,4 @@ void	ft_exec(t_struct *s)
 		ft_pipe_and_fork(s, parsed);
 		parsed = parsed->next;
 	}
-	dup2(s->fd_in_saved, STDIN_FILENO);
-	dup2(s->fd_out_saved, STDOUT_FILENO);
-	dup2(s->fd_err_saved, STDERR_FILENO);
 }

@@ -1,11 +1,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../utils/libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <sys/stat.h>
-
 # define STDIN 0
 # define STDOUT 1
 # define SYNTAX 2
@@ -30,22 +25,24 @@
 # define MINISHELL 10
 # define SEGFAULT 11
 
+# include "../utils/libft/libft.h"
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/stat.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <signal.h>
 # include <termios.h>
-
 # include <stdio.h>
 
-/*typedef struct s_global
+typedef struct s_struc
 {
-	int	signal_detected;
-}	t_global;*/
+	int	error;
+	int	signal;
+}	t_struc;
 
-int	g_state;
-int	g_error;
-
-//static sig_atomic_t g_signal_detected;
+t_struc	g_st;
 
 typedef enum e_token_type
 {
@@ -115,7 +112,6 @@ typedef struct s_struct
 	t_envp				*envp;
 	t_envp				*last_envp;
 	t_token				*token;
-	t_token				*token_syntax_error;
 	t_parsed			*parsed;
 	char				**envp_char;
 	int					*pipe_fd;
@@ -153,15 +149,15 @@ int		ft_env(t_struct *s);
 int		ft_exit(t_struct *s, t_parsed *parsed);
 int		ft_export(t_struct *s, t_parsed *parsed);
 void	ft_print_envp_ascii_order(t_struct *s);
-int		ft_pwd(t_parsed *parsed);
+int		ft_pwd(t_struct *s, t_parsed *parsed);
 int		ft_pwd_write(void);
 int		ft_unset(t_struct *s, t_parsed *parsed);
 
 /*  Errors */
 
 void	ft_change_return_code(t_struct *s);
-void	ft_close_all_previous_files_error(t_parsed *parsed);
 void	ft_error(t_struct *s, int error, char *name);
+void	ft_error_code(int error_last_cmd);
 void	ft_error_export(t_struct *s, char *arg, int error);
 void	ft_error_env(t_struct *s, char *name);
 void	ft_error_unset(t_struct *s, char *arg, int error);
@@ -171,6 +167,9 @@ int		print_error(t_struct *s, int error_code, char *content);
 
 /*	Environment */
 
+void	ft_create_pwd_envp(t_struct *s);
+void	ft_create_oldpwd_envp(t_struct *s);
+void	ft_create_shlvl_envp(t_struct *s);
 void	ft_reassign_updated_envp_char(t_struct *s);
 void	ft_env_changing_builtin(t_struct *s, t_parsed *parsed);
 char	*ft_env_exists(t_envp *envp_list, char *env_name);
@@ -181,14 +180,12 @@ void	ft_node_remove_underscore(t_struct *s);
 
 char	*ft_check_access(char **path_tab, char *cmd_name);
 int		ft_check_if_slash(char *cmd, int mode);
-//int		ft_check_if_dir_slash(char *cmd, int mode);
 void	ft_execution(t_struct *s, t_parsed *parsed);
 void	ft_exec(t_struct *s);
 int		ft_find_built_in(t_struct *s, t_parsed *parsed);
 void	ft_get_fd_last_infile(t_parsed *parsed);
 int		ft_open_double_redirect_in(t_struct *s, t_parsed *parsed);
 int		ft_open_files_inside_pipe(t_struct *s, t_parsed *parsed);
-//void	ft_slash(char *dir);
 void	ft_wait_all_processes(t_struct *s);
 
 /*  Freeing */
@@ -219,7 +216,7 @@ char	*ft_get_env_value(t_struct *s, char *env_name);
 
 /*	Init */
 
-void	ft_create_environment(t_struct *s, char **value2);
+void	ft_create_environment(t_struct *s);
 char	**ft_envp_list_to_tab_string(t_envp	*envp);
 char	**ft_get_path_envp_tab(t_envp *envp);
 void	ft_struct_init(t_struct *s, char **envp);
@@ -256,7 +253,6 @@ char	*ft_write_redirec(char *str, int *y, int x);
 char	*ft_write_space(char *str, int *y);
 void	ft_node_add_back_envp(t_struct *s, char **value, int i);
 void	ft_node_add_back_parsed(t_struct *s);
-//void	ft_node_add_back_token(t_struct *s);
 void	ft_node_remove_envp(t_struct *s, t_envp *node);
 char	**ft_split_add_slash(char const *s);
 char	**ft_split_envp(char const *s, int *i);

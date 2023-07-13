@@ -15,7 +15,8 @@ void	ft_signal_handler(int signal_nb)
 		write(STDIN_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_redisplay();
-		g_error = 1;
+		g_st.error = 1;
+		g_st.signal = 1;
 	}
 	else if (signal_nb == SIGQUIT)
 		return ;
@@ -23,7 +24,7 @@ void	ft_signal_handler(int signal_nb)
 
 void	ft_ctrl_remove(int mode)
 {
-	struct termios ta;
+	struct termios	ta;
 
 	tcgetattr(STDIN_FILENO, &ta);
 	if (mode == 1)
@@ -59,7 +60,7 @@ void	ft_heredoc_handler(int signal_num)
 		rl_replace_line("", STDIN_FILENO);
 		write(STDIN_FILENO, "\n", 1);
 		rl_on_new_line();
-		g_error = 1;
+		g_st.error = 1;
 		exit(1);
 	}
 	else if (signal_num == SIGQUIT)

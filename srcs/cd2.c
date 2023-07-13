@@ -77,7 +77,7 @@ void	ft_change_pwd(t_struct *s, char *new_pwd)
 {
 	t_envp	*temp;
 
-	if (!s)
+	if (!s || !new_pwd)
 		return ;
 	temp = s->envp;
 	if (s->pwd_memory)

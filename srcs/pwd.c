@@ -29,7 +29,7 @@ int	ft_pwd_write(void)
 	return (0);
 }
 
-int	ft_pwd(t_parsed *parsed)
+int	ft_pwd(t_struct *s, t_parsed *parsed)
 {
 	char	*current_path;
 	char	buff[4096 + 1];
@@ -48,6 +48,8 @@ int	ft_pwd(t_parsed *parsed)
 			return (ft_error_pwd(parsed->command[1]), 0);
 	}
 	current_path = getcwd(buff, sizeof(buff));
+	if (!current_path)
+		current_path = s->pwd_memory;
 	write(STDOUT_FILENO, current_path, ft_strlen(current_path));
 	write(STDOUT_FILENO, "\n", 1);
 	return (0);

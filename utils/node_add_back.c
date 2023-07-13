@@ -22,6 +22,7 @@ static t_parsed	*ft_create_parsed_node(void)
 	parsed_node->prev = NULL;
 	return (parsed_node);
 }
+
 /*	void ft_node_add_back_parsed creates a parsed node and adds it at
 	the back of the parsed linked list */
 void	ft_node_add_back_parsed(t_struct *s)
