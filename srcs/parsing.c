@@ -51,7 +51,8 @@ static void	ft_fill_parsed(t_struct *s, t_parsed *current_parsed,
 			ft_node_add_back_redirec(&current_parsed, prov->type);
 			useless = prov->next;
 			current_parsed->last_redire->filename = ft_strdup(useless->str);
-			current_parsed->last_redire->filename
+			if (prov->type != 4)
+				current_parsed->last_redire->filename
 				= ft_dollar_check2(s, current_parsed->last_redire->filename);
 			current_parsed->last_redire->filename
 				= ft_quote_check2(current_parsed->last_redire->filename, 0, 0);
@@ -110,7 +111,7 @@ void	ft_parsing(t_struct *s)
 		current_parsed->command
 			= ft_quote_check(current_parsed->command, -1, 0, 0);
 	}
-	t_parsed	*temp = s->parsed;
+	/*t_parsed	*temp = s->parsed;
 	t_redirec	*temp_redire = s->parsed->redirection;
 	while (temp)
 	{
@@ -124,6 +125,6 @@ void	ft_parsing(t_struct *s)
 			temp_redire = temp_redire->next;
 		}
 		temp = temp->next;
-	}
+	}*/
 	//print_parsed_list(s->parsed);
 }

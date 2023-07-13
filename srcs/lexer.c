@@ -29,6 +29,8 @@ static int	ft_count_redirect(t_struct *s, char *line)
 	while (line[i])
 	{
 		ft_flag_quote(s, line[i]);
+		//printf("lettre = %c\n", line[i]);
+		//printf("s->f_dquote = %d == s->f_quote = %d\n", s->f_dquote, s->f_quote);
 		if ((line[i] == '<' && line [i + 1] == '<'
 				&& s->f_dquote == 0 && s->f_quote == 0)
 			|| (line[i] == '>' && line[i + 1] == '>'
@@ -41,7 +43,10 @@ static int	ft_count_redirect(t_struct *s, char *line)
 				&& s->f_dquote == 0 && s->f_quote == 0)
 			|| (line[i] == '>' && line[i + 1] != '>'
 				&& s->f_dquote == 0 && s->f_quote == 0))
+			{
 			count += 2;
+			//printf("solo\n");
+			}
 		i++;
 	}
 	return (count);
@@ -84,6 +89,7 @@ static char	*ft_add_space(t_struct *s, char *line)
 
 	count = ft_count_pipe(s, line);
 	count += ft_count_redirect(s, line);
+	//printf("count = %d\n", count);
 	str = malloc(sizeof(char) * (count + ft_strlen(line) + 1));
 	if (!str)
 		return (NULL);

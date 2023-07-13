@@ -89,6 +89,8 @@ static void	ft_struct_envp(t_struct *s, char **envp)
 		return (ft_create_environment(s));
 	ft_read_and_create_envp(s, envp);
 	ft_check_return_code_node(s);
+	s->f_dquote = 0;
+	s->f_quote = 0;
 }
 
 /*  void ft_struct_init creates the main struct and gets the envp */
