@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llaurenc <llaurenc@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:54 by avan              #+#    #+#             */
-/*   Updated: 2023/07/14 11:07:50 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/14 12:57:52 by llaurenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ static void	ft_fill_redirec(t_parsed *current_parsed, t_struct *s,
 	redirec_token = prov->next;
 	current_parsed->last_redire->filename
 		= ft_strdup(redirec_token->str);
-	current_parsed->last_redire->filename
-		= ft_dollar_check2(s, current_parsed->last_redire->filename);
+	if (prov->type != 4)
+		current_parsed->last_redire->filename
+			= ft_dollar_check2(s, current_parsed->last_redire->filename);
 	current_parsed->last_redire->filename
 		= ft_quote_check2(current_parsed->last_redire->filename, 0, 0);
 	ft_node_remove_token(s, prov);
