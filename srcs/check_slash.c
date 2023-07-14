@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:08:34 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 18:08:35 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/14 11:04:57 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ static int	ft_check_if_dir_slash(char *cmd, int mode)
 				write(STDERR_FILENO, str, ft_strlen(str));
 				ft_free_ptr((void *) stock);
 				ft_free_ptr((void *) str);
-				g_st.error = 126;
 			}
+			g_st.error = 126;
 			return (0);
 		}
 	}

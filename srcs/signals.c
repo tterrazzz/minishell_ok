@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:03:55 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 18:03:57 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/14 11:50:21 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_signal_handler(int signal_nb)
 	if (signal_nb == SIGINT)
 	{
 		rl_replace_line("", STDIN_FILENO);
-		write(STDIN_FILENO, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_redisplay();
 		g_st.error = 1;
@@ -57,7 +57,12 @@ void	ft_doing_nothing(int signal_nb)
 void	ft_doing_nothing_but_quit(int signal_nb)
 {
 	if (signal_nb == SIGINT)
+	{
+		rl_replace_line("", STDIN_FILENO);
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
 		return ;
+	}
 	else if (signal_nb == SIGQUIT)
 	{
 		printf("Quit :3\n");

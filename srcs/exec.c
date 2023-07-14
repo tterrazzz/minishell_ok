@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:04:06 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 20:39:38 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/14 11:50:31 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void	ft_pipe_and_fork(t_struct *s, t_parsed *parsed)
 	else
 		ft_get_last_cmd_code(s, parsed);
 	parsed->pid = fork();
-	signal(SIGINT, &ft_doing_nothing);
+	signal(SIGINT, &ft_doing_nothing_but_quit);
 	signal(SIGQUIT, &ft_doing_nothing_but_quit);
 	if (parsed->pid < 0)
 	{
@@ -114,11 +114,8 @@ void	ft_exec(t_struct *s)
 		return ;
 	g_st.error = 0;
 	parsed = s->parsed;
-	if (parsed->redirection)
-	{
-		if (ft_open_double_redirect_in(s, parsed))
-			return ;
-	}
+	if (ft_open_double_redirect_in(s, parsed))
+		return ;
 	s->previous_fd = dup(STDIN_FILENO);
 	ft_change_underscore(s, parsed);
 	while (parsed)

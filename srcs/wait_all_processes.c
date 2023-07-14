@@ -6,38 +6,11 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:08:01 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 20:39:21 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/14 10:20:46 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	ft_error_code_cd(t_struct *s, t_parsed *parsed)
-{
-	char	*str;
-	char	*str2;
-	int		i;
-
-	if (!s || !parsed)
-		return ;
-	str = parsed->command[1];
-	str2 = NULL;
-	if (str)
-		str2 = parsed->command[2];
-	i = 0;
-	while (str && str[i] == '-')
-		i++;
-	if (!((i == 1 || i == 2) && i == (int) ft_strlen(str))
-		&& !ft_strncmp(str, ".") && !ft_strncmp(str, ".."))
-		g_st.error = 1;
-	else if (str && (i == 1 || i == 2) && i == (int) ft_strlen(str))
-	{
-		if (i == 2 && str2 && !(s->pwd_memory))
-			g_st.error = 1;
-	}
-	else if (str && ft_strncmp(str, "~") && !(s->pwd_memory))
-		g_st.error = 1;
-}
 
 /*	static void ft_error_code_env_pwd gets the error_code from the env, pwd
 	pipeline if there is one, it would be executed in the child process so
@@ -93,8 +66,6 @@ void	ft_get_last_cmd_code(t_struct *s, t_parsed *parsed)
 	if ((!ft_strncmp(cmd, "pwd") || !ft_strncmp(cmd, "env"))
 		&& parsed->command[1])
 		ft_error_code_env_pwd(s, parsed);
-	else if (!ft_strncmp(cmd, "cd") && parsed->command[1])
-		ft_error_code_cd(s, parsed);
 	else
 	{
 		temp = ft_check_access(s->path_tab, cmd);

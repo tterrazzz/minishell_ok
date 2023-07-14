@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:54 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 18:31:56 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/14 11:07:50 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,5 @@ void	ft_parsing(t_struct *s)
 		current_parsed->command = ft_quote_check(current_parsed->command, -1,
 				0, 0);
 	}
+	current_parsed = s->parsed;
 }

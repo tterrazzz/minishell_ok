@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:03:35 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 19:47:47 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/14 10:17:05 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define HERE_DOC 9
 # define MINISHELL 10
 # define SEGFAULT 11
+# define OLD_PWD 12
 
 # include "../utils/libft/libft.h"
 # include <readline/readline.h>
@@ -142,6 +143,7 @@ typedef struct s_struct
 	int					f_dquote;
 	int					i;
 	int					j;
+	int					fd_check_dir;
 	int					error;
 }	t_struct;
 

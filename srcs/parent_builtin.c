@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:07:45 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 18:11:48 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/14 11:05:03 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	ft_env_changing_builtin(t_struct *s, t_parsed *parsed)
 		ft_export(s, parsed);
 	else if (!ft_strncmp(cmd, "."))
 		ft_dot();
+	else
+		ft_check_if_slash(cmd, PARENT);
 }
 
 /*	int ft_last_is_builtin checks if the command from the last pipeline is
@@ -53,7 +55,7 @@ int	ft_last_is_builtin(t_parsed *parsed)
 		|| !ft_strncmp(cmd, "unset") || (parsed->command && parsed->command[0]
 			&& parsed->command[1] && !ft_strncmp(cmd, "export"))
 		|| !ft_strncmp(cmd, "env") || !ft_strncmp(cmd, "pwd")
-		|| !(ft_check_if_slash(cmd, PARENT)))
+		|| !(ft_check_if_slash(cmd, CHILD)))
 		return (1);
 	return (0);
 }

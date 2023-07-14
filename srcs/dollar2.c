@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llaurenc <llaurenc@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:02:55 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 22:41:42 by llaurenc         ###   ########.fr       */
+/*   Updated: 2023/07/14 12:16:20 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,16 +89,20 @@ char	*ft_dollar_check2(t_struct *s, char *line)
 	while (line[i])
 	{
 		flag = ft_is_flagged(line[i], flag);
+		printf("line[i = %c\n", line[i]);
 		if (line[i] == '\'' && flag == 0)
 			ft_advance_quoted(line, &i);
 		else if (line[i] == '$')
 		{
+			printf("ff\n");
 			if (line[i + 1] || line[i + 1] == ' '
 				|| (line[i + 1] == '\"' && flag == 1))
 			{
+				printf("i++\n");
 				i++;
 				continue ;
 			}
+			write(STDERR_FILENO, "avant dollar replace\n", 21);
 			line = ft_dollar_replace(s, line, i);
 		}
 		else
