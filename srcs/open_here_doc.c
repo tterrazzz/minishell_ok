@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:03:50 by avan              #+#    #+#             */
-/*   Updated: 2023/07/15 08:50:30 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 11:34:26 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,14 @@ static int	ft_pipe_and_fork_hd(t_struct *s, t_parsed *parsed, t_redirec *redi)
 		return (1);
 	redi->here_d_pipe_fd = malloc(sizeof(int) * 2);
 	if (!(redi->here_d_pipe_fd))
-		return (ft_error(s, MALLOC, "malloc"), 1);
+		return (ft_error(MALLOC, "malloc"), 1);
 	if (pipe(redi->here_d_pipe_fd) < 0)
-		return (ft_error(s, PIPE, "pipe"), 1);
+		return (ft_error(PIPE, "pipe"), 1);
 	redi->pid = fork();
 	signal(SIGINT, &ft_doing_nothing);
 	signal(SIGQUIT, &ft_doing_nothing);
 	if (redi->pid < 0)
-		return (ft_error(s, FORK, "fork"), 1);
+		return (ft_error(FORK, "fork"), 1);
 	if (redi->pid == 0)
 		ft_child_process_hd(s, redi);
 	if (ft_parent_process_hd(parsed, redi))

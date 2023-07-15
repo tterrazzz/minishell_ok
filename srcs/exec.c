@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:04:06 by avan              #+#    #+#             */
-/*   Updated: 2023/07/14 11:50:31 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 11:33:32 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	ft_pipe_and_fork(t_struct *s, t_parsed *parsed)
 	if (parsed->next)
 	{
 		if (pipe(s->pipe_fd) < 0)
-			return (ft_error(s, PIPE, "pipe"));
+			return (ft_error(PIPE, "pipe"));
 	}
 	else
 		ft_get_last_cmd_code(s, parsed);

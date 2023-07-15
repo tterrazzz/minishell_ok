@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:07:45 by avan              #+#    #+#             */
-/*   Updated: 2023/07/14 11:05:03 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 10:35:17 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_env_changing_builtin(t_struct *s, t_parsed *parsed)
 	else if (!ft_strncmp(cmd, "unset"))
 		ft_unset(s, parsed);
 	else if (parsed->command && parsed->command[0] && parsed->command[1]
-		&& !ft_strncmp(cmd, "export"))
+		&& !ft_strncmp(cmd, "export") && !(parsed->prev) && !(parsed->next))
 		ft_export(s, parsed);
 	else if (!ft_strncmp(cmd, "."))
 		ft_dot();

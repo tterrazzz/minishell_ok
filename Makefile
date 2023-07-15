@@ -38,6 +38,7 @@ SRC_FILES =	\
 			echo.c \
 			env.c \
 			error.c \
+			error2.c \
 			exec.c \
 			exec2.c \
 			exit.c \

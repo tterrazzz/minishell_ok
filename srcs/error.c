@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:08:21 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 18:08:22 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 11:30:38 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,15 @@ static void	ft_functions_error(int error)
 
 /*	static void ft_exec_error writes the error message dedicated to
 	the execve or the opening of a file */
-static void	ft_exec_error(t_struct *s, int error, char *name, char *str)
+static void	ft_exec_file_error(int error, char *name, char *str)
 {
 	char	*stock;
 
-	if (!s || !name)
+	if (!name)
 		return ;
 	stock = NULL;
 	if (error == EXECVE)
-	{
-		stock = ft_strjoin("minishell: ", name);
-		if (ft_strnstr(name, "/", ft_strlen(name)) || !(s->path_tab))
-			str = ft_strjoin(stock, ": No such file or directory\n");
-		else
-			str = ft_strjoin(stock, ": command not found\n");
-		write(STDERR_FILENO, str, ft_strlen(str));
-	}
+		ft_execve_error(name);
 	else if (error == FIILE)
 	{
 		stock = ft_strjoin("minishell: ", name);
@@ -60,7 +53,7 @@ static void	ft_exec_error(t_struct *s, int error, char *name, char *str)
 }
 
 /*  ft_error sends the right error message to the stderror (2) */
-void	ft_error(t_struct *s, int error, char *name)
+void	ft_error(int error, char *name)
 {
 	char	*str;
 
@@ -71,16 +64,14 @@ void	ft_error(t_struct *s, int error, char *name)
 		|| error == ARGC)
 		ft_functions_error(error);
 	else if (error == EXECVE || error == FIILE)
-		ft_exec_error(s, error, name, NULL);
+		ft_exec_file_error(error, name, NULL);
 }
 
-void	ft_error_env(t_struct *s, char *name)
+void	ft_error_env(char *name)
 {
 	char	*stock;
 	char	*str;
 
-	if (!s)
-		return ;
 	stock = ft_strjoin("env: ", name);
 	str = ft_strjoin(stock, ": No such file or directory\n");
 	ft_free_ptr((void *)stock);

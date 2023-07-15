@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:08:34 by avan              #+#    #+#             */
-/*   Updated: 2023/07/14 11:04:57 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 10:22:57 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	ft_check_if_slash(char *cmd, int mode)
 		if (cmd[i++] == '/')
 			slash = 1;
 	}
+	if (!mode)
+		return (slash);
 	if (slash)
 		return (ft_check_if_dir_slash(cmd, mode));
 	return (1);

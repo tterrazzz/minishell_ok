@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:03:40 by avan              #+#    #+#             */
-/*   Updated: 2023/07/14 09:55:47 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 11:34:31 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	ft_struct_init(t_struct *s, char **envp)
 	s->fd_err_saved = dup(STDERR_FILENO);
 	s->pipe_fd = malloc(sizeof(int) * 2);
 	if (!(s->pipe_fd))
-		return (ft_error(s, MALLOC, "malloc"));
+		return (ft_error(MALLOC, "malloc"));
 	s->old_pwd_memory = NULL;
 	s->pwd_memory = NULL;
 	s->unset_oldpwd = 0;

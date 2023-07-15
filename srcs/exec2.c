@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:08:07 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 20:39:41 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 11:34:50 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,43 @@ char	*ft_check_access(char **path_tab, char *cmd_name)
 	return (path_accessible);
 }
 
+static void	ft_execution3(t_struct *s, t_parsed *parsed)
+{
+	if (!s || !parsed)
+		return ;
+	execve(parsed->command[0], parsed->command, s->envp_char);
+	parsed->path = ft_check_access(s->path_tab, parsed->command[0]);
+	if (execve(parsed->path, parsed->command, s->envp_char) < 0)
+		ft_error(EXECVE, parsed->command[0]);
+	if (!ft_check_if_slash(parsed->command[0], 0))
+		exit(127);
+}
+
+static void	ft_execution2(t_struct *s, t_parsed *parsed)
+{
+	if (!s || !parsed)
+		return ;
+	if (ft_strncmp("..", parsed->command[0])
+		&& access(parsed->command[0], R_OK))
+	{
+		if (errno != EACCES)
+			parsed->path = ft_check_access(s->path_tab, parsed->command[0]);
+		if (parsed->path && (execve(parsed->path, parsed->command,
+					s->envp_char) < 0))
+			ft_error(EXECVE, parsed->command[0]);
+		else
+		{
+			ft_error(EXECVE, parsed->command[0]);
+			if (errno == EACCES)
+				exit(126);
+			else if (errno == ENOENT)
+				exit(127);
+		}
+	}
+	else
+		ft_execution3(s, parsed);
+}
+
 /*	void ft_execution tries to execute the absolute path, if it does not work,
 	it tries all the relative paths */
 void	ft_execution(t_struct *s, t_parsed *parsed)
@@ -58,15 +95,10 @@ void	ft_execution(t_struct *s, t_parsed *parsed)
 				s->envp_char);
 			parsed->path = ft_check_access(s->path_tab, parsed->command[s->i]);
 			if (execve(parsed->path, &(parsed->command[s->i]), s->envp_char))
-				ft_error_env(s, parsed->command[s->i]);
+				ft_error_env(parsed->command[s->i]);
 		}
 		else
-		{
-			execve(parsed->command[0], parsed->command, s->envp_char);
-			parsed->path = ft_check_access(s->path_tab, parsed->command[0]);
-			if (execve(parsed->path, parsed->command, s->envp_char) < 0)
-				ft_error(s, EXECVE, parsed->command[0]);
-		}
+			ft_execution2(s, parsed);
 	}
 	ft_free_everything(s, 1);
 	exit(0);

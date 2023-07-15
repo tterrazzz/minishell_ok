@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:08:01 by avan              #+#    #+#             */
-/*   Updated: 2023/07/14 10:20:46 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 11:23:43 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ static void	ft_error_code_env_pwd(t_struct *s, t_parsed *parsed)
 	i = 0;
 	while (str[i] == '-')
 		i++;
-	if (!ft_strncmp(cmd, "pwd") && !((i == 1 || i == 2)
-			&& i == (int) ft_strlen(str)))
-		g_st.error = 1;
-	else if (i > 0 && i != (int) ft_strlen(str))
+	if (i > 0 && i != (int) ft_strlen(str))
 		g_st.error = 1;
 	else if (ft_strncmp(cmd, "pwd") && i == (int) ft_strlen(str)
 		&& str2 && !ft_check_access(s->path_tab, str2))
@@ -48,9 +45,9 @@ void	ft_get_last_cmd_code2(t_parsed *parsed, char *cmd)
 	if (!parsed || !cmd)
 		return ;
 	if (!ft_strncmp(".", cmd))
-		parsed->error = 2;
+		g_st.error = 2;
 	else if (!ft_strncmp("..", cmd))
-		parsed->error = 127;
+		g_st.error = 127;
 }
 
 /*	void ft_get_last_cmd_code will check the access of the last command
@@ -73,8 +70,11 @@ void	ft_get_last_cmd_code(t_struct *s, t_parsed *parsed)
 				&& ft_strncmp(cmd, "unset") && ft_strncmp(cmd, "export")
 				&& ft_strncmp(cmd, "env") && ft_strncmp(cmd, "pwd")))
 		{
-			parsed->error = 127;
-			g_st.error = 127;
+			if (cmd)
+			{
+				parsed->error = 127;
+				g_st.error = 127;
+			}
 		}
 		ft_get_last_cmd_code2(parsed, cmd);
 		ft_free_ptr((void *) temp);
@@ -99,9 +99,11 @@ void	ft_wait_all_processes(t_struct *s)
 		temp_parsed = temp_parsed->next;
 	}
 	waitpid(temp_parsed->pid, &error_last_cmd, 0);
-	if (!ft_last_is_builtin(temp_parsed))
-		g_st.error = temp_parsed->error;
-	if (error_last_cmd != 0 && s->error == 0)
-		g_st.error = 1;
+	if ((ft_strncmp(temp_parsed->command[0], "..")
+			&& ft_strncmp(temp_parsed->command[0], ".")
+			&& ft_check_if_slash(temp_parsed->command[0], CHILD)
+			&& !ft_last_is_builtin(temp_parsed))
+		|| (!(temp_parsed->command[0])))
+		g_st.error = error_last_cmd % 255;
 	ft_error_code(error_last_cmd);
 }

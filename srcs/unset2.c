@@ -6,19 +6,19 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:04:02 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 18:04:03 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 11:36:55 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*	static void	ft_error_unset_identifier gets called by ft_error_unset */
-static void	ft_error_unset_identifier(t_struct *s, char *arg)
+static void	ft_error_unset_identifier(char *arg)
 {
 	char	*str;
 	char	*stock;
 
-	if (!s || !arg)
+	if (!arg)
 		return ;
 	str = NULL;
 	stock = NULL;
@@ -32,13 +32,13 @@ static void	ft_error_unset_identifier(t_struct *s, char *arg)
 
 /*	void ft_error_unset writes the correct error message for the unset function
 	and sets g_st.error */
-void	ft_error_unset(t_struct *s, char *arg, int error)
+void	ft_error_unset(char *arg, int error)
 {
 	char	*str;
 	char	*stock;
 	char	str2[3];
 
-	if (!s || !arg)
+	if (!arg)
 		return ;
 	str = NULL;
 	stock = NULL;
@@ -53,5 +53,5 @@ void	ft_error_unset(t_struct *s, char *arg, int error)
 		g_st.error = 2;
 	}
 	else
-		ft_error_unset_identifier(s, arg);
+		ft_error_unset_identifier(arg);
 }

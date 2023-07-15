@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:10:54 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 18:10:55 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 11:36:20 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	ft_check_first_arg_unset(t_struct *s, t_parsed *parsed)
 				return (1);
 		}
 		else
-			return (ft_error_unset(s, str, INVALID_OPTION), 0);
+			return (ft_error_unset(str, INVALID_OPTION), 0);
 	}
 	return (1);
 }
@@ -58,18 +58,18 @@ static int	ft_check_args_unset(t_struct *s, char *str)
 		return (1);
 	i = 0;
 	if (ft_isdigit(str[0]) || str[0] == '=')
-		return (ft_error_unset(s, str, INVALID_IDENTIFIER), 1);
+		return (ft_error_unset(str, INVALID_IDENTIFIER), 1);
 	else if (str[0] == '-')
 	{
 		if (str[1] == '-' && !str[2])
 			return (0);
 		else
-			return (ft_error_unset(s, str, INVALID_IDENTIFIER), 1);
+			return (ft_error_unset(str, INVALID_IDENTIFIER), 1);
 	}
 	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
 	if (i < (int) ft_strlen(str))
-		return (ft_error_unset(s, str, INVALID_IDENTIFIER), 1);
+		return (ft_error_unset(str, INVALID_IDENTIFIER), 1);
 	return (0);
 }
 

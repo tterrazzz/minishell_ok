@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llaurenc <llaurenc@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:31:54 by avan              #+#    #+#             */
-/*   Updated: 2023/07/14 12:57:52 by llaurenc         ###   ########.fr       */
+/*   Updated: 2023/07/15 11:04:33 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	**ft_delete_null(char **tab)
+{
+	size_t	size;
+	size_t	i;
+
+	if (!tab)
+		return (NULL);
+	size = 0;
+	i = 0;
+	while (tab[i])
+	{
+		if (ft_strlen(tab[i]) == 0)
+		{
+			free(tab[i]);
+			i++;
+			continue ;
+		}
+		tab[size] = tab[i];
+		size++;
+		i++;
+	}
+	tab[size] = NULL;
+	return (tab);
+}
 
 static void	ft_fill_redirec(t_parsed *current_parsed, t_struct *s,
 	t_token *prov, t_token **useless)
@@ -100,6 +125,7 @@ void	ft_parsing(t_struct *s)
 		ft_fill_parsed(s, current_parsed, &current_token, 0);
 		current_parsed->command = ft_dollar_check(s, current_parsed->command,
 				-1, 0);
+		current_parsed->command = ft_delete_null(current_parsed->command);
 		current_parsed->command = ft_quote_check(current_parsed->command, -1,
 				0, 0);
 	}

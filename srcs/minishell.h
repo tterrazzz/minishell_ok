@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:03:35 by avan              #+#    #+#             */
-/*   Updated: 2023/07/14 10:17:05 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 11:52:48 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,14 +168,15 @@ int		ft_unset(t_struct *s, t_parsed *parsed);
 /*  Errors */
 
 void	ft_change_return_code(t_struct *s);
-void	ft_error(t_struct *s, int error, char *name);
+void	ft_error(int error, char *name);
 void	ft_error_code(int error_last_cmd);
 void	ft_error_export(t_struct *s, char *arg, int error);
-void	ft_error_env(t_struct *s, char *name);
-void	ft_error_unset(t_struct *s, char *arg, int error);
+void	ft_error_env(char *name);
+void	ft_error_unset(char *arg, int error);
+void	ft_execve_error(char *name);
 void	ft_get_last_cmd_code(t_struct *s, t_parsed *parsed);
 int		ft_last_is_builtin(t_parsed *parsed);
-int		print_error(t_struct *s, int error_code, char *content);
+int		print_error(int error_code, char *content);
 
 /*	Environment */
 

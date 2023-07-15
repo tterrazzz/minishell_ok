@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:33:57 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 18:33:59 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 11:34:09 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_tab_envp	**ft_tab_envp(t_struct *s)
 	{
 		tab_envp[i] = malloc(sizeof(t_tab_envp));
 		if (!(tab_envp[i]))
-			ft_error(s, MALLOC, "malloc");
+			ft_error(MALLOC, "malloc");
 		i++;
 	}
 	tab_envp[nb_nodes] = NULL;

@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:12:06 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 18:12:08 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 11:35:48 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*	int ft_open_file_in opens the file, using redirection->filename and gets
 	its file descriptor for parsed->fd_in */
-int	ft_open_file_in(t_struct *s, t_parsed *parsed, t_redirec *redirection)
+int	ft_open_file_in(t_parsed *parsed, t_redirec *redirection)
 {
 	if (!parsed || !redirection)
 		return (1);
@@ -23,8 +23,9 @@ int	ft_open_file_in(t_struct *s, t_parsed *parsed, t_redirec *redirection)
 		redirection->fd = open(redirection->filename, O_RDONLY);
 		if (redirection->fd == -1)
 		{
-			ft_error(s, FIILE, redirection->filename);
+			ft_error(FIILE, redirection->filename);
 			parsed->error = PERMISSION_DENIED;
+			g_st.error = PERMISSION_DENIED;
 			return (1);
 		}
 	}
@@ -37,9 +38,9 @@ int	ft_open_file_in(t_struct *s, t_parsed *parsed, t_redirec *redirection)
 
 /*	int ft_open_file_out opens the file accordingly to the type, using
 	redirection->filename and gets its file descriptor for parsed->fd_out */
-int	ft_open_file_out(t_struct *s, t_parsed *parsed, t_redirec *redirection)
+int	ft_open_file_out(t_parsed *parsed, t_redirec *redirection)
 {
-	if (!s || !parsed || !redirection)
+	if (!parsed || !redirection)
 		return (1);
 	if (parsed->fd_out)
 		close(parsed->fd_out);
@@ -53,9 +54,10 @@ int	ft_open_file_out(t_struct *s, t_parsed *parsed, t_redirec *redirection)
 					| O_APPEND, 0644);
 		if (redirection->fd == -1)
 		{
-			ft_error(s, FIILE, redirection->filename);
+			ft_error(FIILE, redirection->filename);
 			parsed->error = PERMISSION_DENIED;
-			exit(1);
+			g_st.error = PERMISSION_DENIED;
+			return (1);
 		}
 	}
 	if (parsed->fd_out)
@@ -81,10 +83,10 @@ int	ft_open_files_inside_pipe(t_struct *s, t_parsed *parsed)
 	while (temp_redire)
 	{
 		if (temp_redire->type == redirect_in)
-			error_code = ft_open_file_in(s, parsed, temp_redire);
+			error_code = ft_open_file_in(parsed, temp_redire);
 		else if ((temp_redire->type == redirect_out)
 			|| (temp_redire->type == double_redirect_out))
-			error_code = ft_open_file_out(s, parsed, temp_redire);
+			error_code = ft_open_file_out(parsed, temp_redire);
 		if (error_code)
 			return (1);
 		temp_redire = temp_redire->next;
