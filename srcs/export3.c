@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:04:18 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 18:04:19 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 08:33:27 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	ft_replace_value_export(t_struct *s, char **name_value, int i)
 	ft_free_ptr((void *) temp->value[1]);
 	temp->value[1] = ft_strdup(name_value[1]);
 	temp->nb_words = i;
+	ft_free_tab((void **) name_value);
 }
 
 static void	ft_change_envp_export(t_struct *s, char *str, char *result)
