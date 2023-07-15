@@ -6,7 +6,7 @@
 /*   By: avan <avan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 18:19:14 by avan              #+#    #+#             */
-/*   Updated: 2023/07/13 18:19:15 by avan             ###   ########.fr       */
+/*   Updated: 2023/07/15 12:05:27 by avan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_check_quotes(t_struct *s, char *str)
 	}
 	if (in_quotes != 0)
 	{
-		print_error(s, 1, NULL);
+		print_error(1, NULL);
 		return (free(str), 1);
 	}
 	return (0);
